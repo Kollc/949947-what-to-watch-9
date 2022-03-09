@@ -1,28 +1,16 @@
 import { FilmType } from '../../types';
-import CardItem from '../card-item/card-item';
 import CatalogGenresList from '../catalog-genres-list/catalog-genres-list';
 import Footer from '../footer/footer';
 import Header from '../header/header';
+import ListFilmsCard from '../list-films-card/list-films-card';
 import PromoFilm from '../promo-film/promo-film';
 
 type MainPageProps = {
-  countCards: number,
+  films: FilmType[],
   promoFilm: FilmType,
 }
 
-function MainPage({countCards, promoFilm}: MainPageProps): JSX.Element {
-
-  const getCardsList = (): number[] => {
-    const list = [];
-
-    for(let i = 0; i < countCards; i++) {
-      list.push(i);
-    }
-
-    return list;
-  };
-
-  const cardsList = getCardsList();
+function MainPage({films, promoFilm}: MainPageProps): JSX.Element {
 
   return (
     <>
@@ -41,9 +29,7 @@ function MainPage({countCards, promoFilm}: MainPageProps): JSX.Element {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
           <CatalogGenresList/>
 
-          <div className="catalog__films-list">
-            {cardsList.map((card) => (<CardItem key={card}/>))}
-          </div>
+          <ListFilmsCard films={films}/>
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
