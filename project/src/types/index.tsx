@@ -1,5 +1,5 @@
-export type FilmType = {
-  name: string,
-  genre: string,
-  dataRelease: Date,
-}
+import { FilmType } from './film';
+
+export type {
+  FilmType
+};

@@ -5,7 +5,7 @@ type PromoFilmProps = {
 }
 
 function PromoFilm({promoFilm}: PromoFilmProps): JSX.Element {
-  const {name, genre, dataRelease} = promoFilm;
+  const {name, genre, released} = promoFilm;
 
   return (
     <div className="film-card__wrap">
@@ -18,7 +18,7 @@ function PromoFilm({promoFilm}: PromoFilmProps): JSX.Element {
           <h2 className="film-card__title">{name}</h2>
           <p className="film-card__meta">
             <span className="film-card__genre">{genre}</span>
-            <span className="film-card__year">{dataRelease.getFullYear()}</span>
+            <span className="film-card__year">{released}</span>
           </p>
 
           <div className="film-card__buttons">
