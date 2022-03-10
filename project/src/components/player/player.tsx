@@ -1,6 +1,6 @@
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { FilmType } from '../../types';
-import { getFilmOnId } from '../../utils';
+import { getFilmById } from '../../utils';
 
 type PlayerProps ={
   films: FilmType[]
@@ -8,7 +8,11 @@ type PlayerProps ={
 
 function Player({films}: PlayerProps): JSX.Element {
   const {id} = useParams<{id: string}>();
-  const film: FilmType = getFilmOnId(films, id);
+  const film: FilmType | undefined = getFilmById(films, id);
+
+  if (film === undefined) {
+    return <Navigate to="/404"/>;
+  }
 
   return (
     <div className="player">

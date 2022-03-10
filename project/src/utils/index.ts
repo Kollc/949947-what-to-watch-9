@@ -1,15 +1,7 @@
 import { FilmType } from '../types';
 
-const getFilmOnId = (films: FilmType[], id: string | undefined): FilmType => {
-  const filmsList = new Map();
-
-  films.forEach((filmItem) => {
-    filmsList.set(String(filmItem.id), filmItem);
-  });
-
-  return filmsList.get(id);
-};
+const getFilmById = (films: FilmType[], id: string | undefined): FilmType | undefined => films.find((film) => film.id === Number(id));
 
 export {
-  getFilmOnId
+  getFilmById
 };

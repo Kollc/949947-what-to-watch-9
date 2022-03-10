@@ -1,6 +1,6 @@
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { FilmType } from '../../types';
-import { getFilmOnId } from '../../utils';
+import { getFilmById } from '../../utils';
 import Header from '../header/header';
 import AddReviewForm from './add-review-form/add-review-form';
 
@@ -10,7 +10,11 @@ type AddReviewPageProps = {
 
 function AddReviewPage({films}: AddReviewPageProps): JSX.Element  {
   const {id} = useParams<{id: string}>();
-  const film: FilmType = getFilmOnId(films, id);
+  const film: FilmType | undefined = getFilmById(films, id);
+
+  if (film === undefined) {
+    return <Navigate to="/404"/>;
+  }
 
   return (
     <section className="film-card film-card--full">

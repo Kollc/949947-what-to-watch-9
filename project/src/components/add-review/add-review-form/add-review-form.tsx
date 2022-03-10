@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from 'react';
 import AddReviewRating from '../add-review-rating/add-review-rating';
 
 function AddReviewForm(): JSX.Element {
-  const [rating, setRating] = useState(1);
+  const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
 
   const changeReviewTextHandler = (evt: ChangeEvent<HTMLTextAreaElement>) => {

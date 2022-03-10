@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import { FilmType } from '../../types';
-import { getFilmOnId } from '../../utils';
+import { getFilmById } from '../../utils';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 
@@ -12,8 +12,12 @@ type MoviePageProps = {
 
 function MoviePage({films}: MoviePageProps): JSX.Element {
   const {id} = useParams<{id: string}>();
-  const film: FilmType = getFilmOnId(films, id);
+  const film: FilmType | undefined = getFilmById(films, id);
   const navigate = useNavigate();
+
+  if (film === undefined) {
+    return <Navigate to="/404"/>;
+  }
 
   return (
     <React.Fragment>
