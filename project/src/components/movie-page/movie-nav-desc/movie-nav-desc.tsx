@@ -15,27 +15,21 @@ type MovieNavDescProps = {
 }
 
 function MovieNavDesc({film}: MovieNavDescProps): JSX.Element {
-  const [currentTab, setCurrentTab] = useState(<MovieOverviewTab film={film}/>);
   const [currentLink, setCurrentLink] = useState(MoviePageTabLinks.overview);
-
-  const clickTabLinkHandler = (component: JSX.Element, link: MoviePageTabLinks) => {
-    setCurrentTab(component);
-    setCurrentLink(link);
-  };
 
   const clickOverviewTabLinkHandler = (evt: MouseEvent) => {
     evt.preventDefault();
-    clickTabLinkHandler(<MovieOverviewTab film={film}/>, MoviePageTabLinks.overview);
+    setCurrentLink(MoviePageTabLinks.overview);
   };
 
   const clickDetailsTabLinkHandler = (evt: MouseEvent) => {
     evt.preventDefault();
-    clickTabLinkHandler(<MovieDetailsTab film={film}/>, MoviePageTabLinks.details);
+    setCurrentLink(MoviePageTabLinks.details);
   };
 
   const clickReviewsTabLinkHandler = (evt: MouseEvent) => {
     evt.preventDefault();
-    clickTabLinkHandler(<MovieReviewsTab/>, MoviePageTabLinks.reviews);
+    setCurrentLink(MoviePageTabLinks.reviews);
   };
 
   const setClassActive = (link: MoviePageTabLinks) => {
@@ -67,7 +61,9 @@ function MovieNavDesc({film}: MovieNavDescProps): JSX.Element {
           </li>
         </ul>
       </nav>
-      {currentTab}
+      {currentLink === MoviePageTabLinks.overview && <MovieOverviewTab film={film}/>}
+      {currentLink === MoviePageTabLinks.details && <MovieDetailsTab film={film}/>}
+      {currentLink === MoviePageTabLinks.reviews && <MovieReviewsTab/>}
     </div>
   );
 }
