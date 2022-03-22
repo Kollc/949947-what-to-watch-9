@@ -1,25 +1,19 @@
-import { MouseEvent, useEffect, useState } from 'react';
-import { DEFAULT_GENRE_FILM } from '../../consts';
-import { useAppDispatch } from '../../hooks';
-import { setFilmsByGenre, setGenre } from '../../store/actions';
+import { MouseEvent } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { setGenre } from '../../store/actions';
 
 type CatalogGenresListProps = {
   allGenre: string[],
 }
 
 function CatalogGenresList({allGenre}: CatalogGenresListProps): JSX.Element {
-  const [currentGenre, setCurrentGenre] = useState(DEFAULT_GENRE_FILM);
   const dispatch = useAppDispatch();
+  const currentGenre = useAppSelector((state) => state.genre);
 
   const clickToChangeGenreHandler = (evt: MouseEvent, genre: string) => {
     evt.preventDefault();
-    setCurrentGenre(genre);
+    dispatch(setGenre(genre));
   };
-
-  useEffect(() => {
-    dispatch(setGenre(currentGenre));
-    dispatch(setFilmsByGenre());
-  }, [currentGenre]);
 
   return (
     <ul className="catalog__genres-list">

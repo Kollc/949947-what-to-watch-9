@@ -12,8 +12,8 @@ type MainPageProps = {
 }
 
 function MainPage({promoFilm}: MainPageProps): JSX.Element {
-  const {films, originalFilms} = useAppSelector((state) => state);
-  const allGenre = getAllGenres(originalFilms);
+  const {films} = useAppSelector((state) => state);
+  const allGenre = getAllGenres(films);
 
   return (
     <>

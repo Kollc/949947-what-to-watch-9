@@ -10,19 +10,19 @@ const formatFilmRunTime = (time: number) => {
   return `${hours}h ${minutes}m`;
 };
 
-const getAllGenres = (films: FilmType[]) => {
-  const genres = Array<string>();
-  genres.push(DEFAULT_GENRE_FILM);
+const getAllGenres = (films: FilmType[]) => ([...new Set([DEFAULT_GENRE_FILM, ...films.map((film) => film.genre)])]);
 
-  films.forEach((film) => {
-    genres.push(film.genre);
-  });
+const getFilmsByGenre = (films: FilmType[], genre: string) => {
+  if(genre === DEFAULT_GENRE_FILM) {
+    return films;
+  }
 
-  return Array.from(new Set(genres));
+  return films.filter((film) => film.genre === genre);
 };
 
 export {
   getFilmById,
   formatFilmRunTime,
-  getAllGenres
+  getAllGenres,
+  getFilmsByGenre
 };
