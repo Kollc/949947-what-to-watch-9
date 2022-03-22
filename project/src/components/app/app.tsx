@@ -19,7 +19,7 @@ function App({promoFilm, films}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Main} element={<MainPage films={films} promoFilm={promoFilm}/>}/>
+        <Route path={AppRoute.Main} element={<MainPage promoFilm={promoFilm}/>}/>
         <Route path={AppRoute.SignIn} element={<SignInPage/>}/>
         <Route path={AppRoute.MyList} element={<PrivateRoute authorizationStatus={AuthorizationStatus.Auth}><MyListPage films={films}/></PrivateRoute>}/>
         <Route path={AppRoute.Film} element={<MoviePage films={films}/>}/>
