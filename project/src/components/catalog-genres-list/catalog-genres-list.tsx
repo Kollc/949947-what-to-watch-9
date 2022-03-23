@@ -1,18 +1,21 @@
 import { MouseEvent } from 'react';
+import { COUNT_FILM_LOADED } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setGenre } from '../../store/actions';
 
 type CatalogGenresListProps = {
   allGenre: string[],
+  setCountFilmShow: (value: number) => void,
 }
 
-function CatalogGenresList({allGenre}: CatalogGenresListProps): JSX.Element {
+function CatalogGenresList({allGenre, setCountFilmShow}: CatalogGenresListProps): JSX.Element {
   const dispatch = useAppDispatch();
   const currentGenre = useAppSelector((state) => state.genre);
 
   const clickToChangeGenreHandler = (evt: MouseEvent, genre: string) => {
     evt.preventDefault();
     dispatch(setGenre(genre));
+    setCountFilmShow(COUNT_FILM_LOADED);
   };
 
   return (
