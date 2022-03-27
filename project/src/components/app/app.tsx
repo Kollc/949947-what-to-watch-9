@@ -9,13 +9,32 @@ import AddReviewPage from '../add-review/add-review';
 import Player from '../player/player';
 import NotFoundPage from '../not-found-page/not-found.page';
 import PrivateRoute from '../private-route/private-route';
+import { useAppSelector } from '../../hooks';
+import LoadingScreen from '../loading-screen/loading-screen';
+import { useEffect, useState } from 'react';
+import { getPromoFilm } from '../../services/api';
+import { errorHandle } from '../../services/error-handler';
 
-type AppProps = {
-  promoFilm: FilmType,
-  films: FilmType[],
-}
 
-function App({promoFilm, films}: AppProps): JSX.Element {
+function App(): JSX.Element {
+  const {isDataLoaded} = useAppSelector((state) => state);
+  const [promoFilm,  setPromoFilm] = useState<FilmType | null>(null);
+  const {films} = useAppSelector((state) => state);
+
+  useEffect(() => {
+    getPromoFilm().then((data) => {
+      setPromoFilm(data);
+    }).catch((error) => {
+      errorHandle(error);
+    });
+  }, []);
+
+  if (!isDataLoaded || promoFilm === null) {
+    return (
+      <LoadingScreen/>
+    );
+  }
+
   return (
     <BrowserRouter>
       <Routes>

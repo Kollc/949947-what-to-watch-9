@@ -1,12 +1,20 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { films } from '../../mocks/films';
-import { setFilms, setGenre } from '../actions';
+import { DEFAULT_FILTER_GENRE_VALUE } from '../../consts';
+import { FilmType } from '../../types';
+import { loadFilms, setError, setGenre } from '../actions/actions';
 
-const DEFAULT_FILTER_GENRE_VALUE = 'All genres';
+type initialStateTypes = {
+  genre: string,
+  films: FilmType[],
+  error: string,
+  isDataLoaded: boolean,
+}
 
-const initialState = {
+const initialState: initialStateTypes = {
   genre: DEFAULT_FILTER_GENRE_VALUE,
-  films: films,
+  films: [],
+  error: '',
+  isDataLoaded: false,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -14,8 +22,12 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(setGenre, (state, action) => {
       state.genre = action.payload;
     })
-    .addCase(setFilms, (state) => {
-      state.films = films;
+    .addCase(setError, (state, action) => {
+      state.error = action.payload;
+    })
+    .addCase(loadFilms, (state, action) => {
+      state.films = action.payload;
+      state.isDataLoaded = true;
     });
 });
 

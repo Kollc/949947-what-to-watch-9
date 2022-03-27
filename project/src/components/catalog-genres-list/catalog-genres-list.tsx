@@ -1,7 +1,7 @@
 import { MouseEvent } from 'react';
 import { COUNT_FILM_LOADED } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setGenre } from '../../store/actions';
+import { setGenre } from '../../store/actions/actions';
 
 type CatalogGenresListProps = {
   allGenre: string[],

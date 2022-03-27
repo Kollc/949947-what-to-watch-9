@@ -13,5 +13,17 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const DEFAULT_GENRE_FILM = 'All genres';
+export enum AppRoute {
+  Films = '/films',
+  PromoFilm = '/promo',
+}
+
+export enum HTTP_CODE {
+  BAD_REQUEST = 400,
+  UNAUTHORIZED = 401,
+  NOT_FOUND = 404,
+}
+
 export const COUNT_FILM_LOADED = 8;
+export const DEFAULT_FILTER_GENRE_VALUE = 'All genres';
+export const TIMEOUT_SHOW_ERROR = 2000;
