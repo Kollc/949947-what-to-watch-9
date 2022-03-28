@@ -12,10 +12,10 @@ import ShowMore from '../show-more/show-more';
 
 type MainPageProps = {
   promoFilm: FilmType,
+  films: FilmType[],
 }
 
-function MainPage({promoFilm}: MainPageProps): JSX.Element {
-  const {films} = useAppSelector((state) => state);
+function MainPage({films, promoFilm}: MainPageProps): JSX.Element {
   const {genre} = useAppSelector((state) => state);
   const [countFilmShow, setCountFilmShow] = useState(COUNT_FILM_LOADED);
   const allGenre = getAllGenres(films);

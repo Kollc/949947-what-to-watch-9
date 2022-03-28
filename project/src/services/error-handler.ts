@@ -20,11 +20,7 @@ export const errorHandle = (error: ErrorType): void => {
   if (response) {
     switch (response.status) {
       case HTTP_CODE.BAD_REQUEST:
-        handleError(response.data.error);
-        break;
       case HTTP_CODE.UNAUTHORIZED:
-        handleError(response.data.error);
-        break;
       case HTTP_CODE.NOT_FOUND:
         handleError(response.data.error);
         break;
