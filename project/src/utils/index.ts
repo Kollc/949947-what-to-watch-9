@@ -1,4 +1,4 @@
-import { DEFAULT_GENRE_FILM } from '../consts';
+import { DEFAULT_FILTER_GENRE_VALUE } from '../consts';
 import { FilmType } from '../types';
 
 const getFilmById = (films: FilmType[], id: string | undefined): FilmType | undefined => films.find((film) => film.id === Number(id));
@@ -10,10 +10,10 @@ const formatFilmRunTime = (time: number) => {
   return `${hours}h ${minutes}m`;
 };
 
-const getAllGenres = (films: FilmType[]) => ([...new Set([DEFAULT_GENRE_FILM, ...films.map((film) => film.genre)])]);
+const getAllGenres = (films: FilmType[]) => ([...new Set([DEFAULT_FILTER_GENRE_VALUE, ...films.map((film) => film.genre)])]);
 
 const getFilmsByGenre = (films: FilmType[], genre: string) => {
-  if(genre === DEFAULT_GENRE_FILM) {
+  if(genre === DEFAULT_FILTER_GENRE_VALUE) {
     return films;
   }
 

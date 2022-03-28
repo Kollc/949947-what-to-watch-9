@@ -12,10 +12,10 @@ import ShowMore from '../show-more/show-more';
 
 type MainPageProps = {
   promoFilm: FilmType,
+  films: FilmType[],
 }
 
-function MainPage({promoFilm}: MainPageProps): JSX.Element {
-  const {films} = useAppSelector((state) => state);
+function MainPage({films, promoFilm}: MainPageProps): JSX.Element {
   const {genre} = useAppSelector((state) => state);
   const [countFilmShow, setCountFilmShow] = useState(COUNT_FILM_LOADED);
   const allGenre = getAllGenres(films);
@@ -25,7 +25,7 @@ function MainPage({promoFilm}: MainPageProps): JSX.Element {
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel"/>
+          <img src={promoFilm.backgroundImage} alt={promoFilm.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
