@@ -13,9 +13,11 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export enum AppRoute {
+export enum APIRoute {
   Films = '/films',
   PromoFilm = '/promo',
+  Login = '/login',
+  Logout = '/logout',
 }
 
 export enum HTTP_CODE {
