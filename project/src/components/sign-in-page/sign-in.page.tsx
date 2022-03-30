@@ -1,18 +1,32 @@
-import { FormEvent, useState } from 'react';
-import { useAppDispatch } from '../../hooks';
+import { FormEvent, useRef } from 'react';
+import { Navigate } from 'react-router-dom';
+import { AuthorizationStatus } from '../../consts';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/actions/api-actions';
+import { addErrorMessage, checkValidatePassword } from '../../utils/validate';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 
 function SignInPage(): JSX.Element {
   const dispatch = useAppDispatch();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const {requireAuthorization} = useAppSelector((state) => state);
+  const emailInput = useRef<HTMLInputElement>(null);
+  const passwordInput = useRef<HTMLInputElement>(null);
 
   const submitLoginFormHandler = (evt: FormEvent) => {
     evt.preventDefault();
-    dispatch(loginAction({email, password}));
+
+    if(emailInput.current !== null && passwordInput.current !== null) {
+      dispatch(loginAction({
+        email: emailInput.current.value,
+        password: passwordInput.current.value,
+      }));
+    }
   };
+
+  if(requireAuthorization === AuthorizationStatus.Auth) {
+    return <Navigate to='/'/>;
+  }
 
   return (
     <div className="user-page">
@@ -22,24 +36,26 @@ function SignInPage(): JSX.Element {
           <div className="sign-in__fields">
             <div className="sign-in__field">
               <input
+                ref={emailInput}
                 className="sign-in__input"
                 type="email"
                 placeholder="Email address"
                 name="user-email" id="user-email"
-                value={email}
-                onChange={(evt) => setEmail(evt.target.value)}
+                required
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
             </div>
             <div className="sign-in__field">
               <input
+                ref={passwordInput}
                 className="sign-in__input"
                 type="password"
                 placeholder="Password"
                 name="user-password"
                 id="user-password"
-                value={password}
-                onChange={(evt) => setPassword(evt.target.value)}
+                required
+                minLength={2}
+                onChange={(evt) => addErrorMessage(evt.target, checkValidatePassword(evt.target.value))}
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
             </div>
