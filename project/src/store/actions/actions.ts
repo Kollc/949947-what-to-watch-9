@@ -1,7 +1,13 @@
 import {createAction} from '@reduxjs/toolkit';
+import { AppRoute, AuthorizationStatus } from '../../consts';
 import { FilmType } from '../../types';
+import { UserData } from '../../types/user';
 
-export const setGenre = createAction('film/setGenre', (genre: string) => ({payload: genre}));
-export const loadFilms = createAction('data/loadFilms', (films: FilmType[]) => ({payload: films}));
-export const loadPromoFilm = createAction('data/loadPromoFilm', (promoFilm: FilmType) => ({payload: promoFilm}));
-export const setError = createAction<string>('game/setError');
+export const setGenre = createAction<string>('film/setGenre');
+export const loadFilms = createAction<FilmType[]>('data/loadFilms');
+export const loadPromoFilm = createAction<FilmType>('data/loadPromoFilm');
+export const setError = createAction<string>('film/setError');
+export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');
+export const redirectToRoute = createAction<AppRoute>('user/redirectToRoute');
+export const setUser = createAction<UserData>('user/setUser');
+export const resetUser = createAction('user/resetUser');
