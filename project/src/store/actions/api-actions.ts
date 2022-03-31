@@ -2,7 +2,7 @@ import { APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from './.
 import { store, api } from '../store';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { FilmType } from '../../types';
-import { loadFilms, loadPromoFilm, redirectToRoute, requireAuthorization, resetUser, setError, setUser } from './actions';
+import { dataIsLoading, loadCurrentFilm, loadFilms, loadPromoFilm, loadSimilarFilms, redirectToRoute, requireAuthorization, resetUser, setError, setUser } from './actions';
 import { errorHandle } from '../../services/error-handler';
 import { AuthData, UserData } from '../../types/user';
 import { dropToken, saveToken } from '../../services/token';
@@ -21,6 +21,7 @@ export const fetchFilmsAction = createAsyncThunk(
   'data/fetchFilms',
   async () => {
     try {
+      store.dispatch(dataIsLoading());
       const {data} = await api.get<FilmType[]>(APIRoute.Films);
       store.dispatch(loadFilms(data));
     } catch (error) {
@@ -33,8 +34,35 @@ export const fetchPromoFilmAction = createAsyncThunk(
   'data/fetchPromoFilm',
   async () => {
     try {
+      store.dispatch(dataIsLoading());
       const {data} = await api.get<FilmType>(APIRoute.PromoFilm);
       store.dispatch(loadPromoFilm(data));
+    } catch (error) {
+      errorHandle(error);
+    }
+  },
+);
+
+export const fetchFilmByIdAction = createAsyncThunk(
+  'data/fetchFilmById',
+  async (filmId: number) => {
+    try {
+      store.dispatch(dataIsLoading());
+      const {data} = await api.get(`${APIRoute.Films}/${filmId}`);
+      store.dispatch(loadCurrentFilm(data));
+    } catch (error) {
+      errorHandle(error);
+    }
+  },
+);
+
+export const fetchSimilarFilmAction = createAsyncThunk(
+  'data/fetchSimilarFilm',
+  async (filmId: number) => {
+    try {
+      store.dispatch(dataIsLoading());
+      const {data} = await api.get(`${APIRoute.Films}/${filmId}/similar`);
+      store.dispatch(loadSimilarFilms(data));
     } catch (error) {
       errorHandle(error);
     }

@@ -1,23 +1,25 @@
-import React from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-import { FilmType } from '../../types';
-import { getFilmById } from '../../utils';
+import React, { useEffect } from 'react';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchFilmByIdAction, fetchSimilarFilmAction } from '../../store/actions/api-actions';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import MoreLikeThis from '../more-like-this/more-like-this';
 import MovieNavDesc from './movie-nav-desc/movie-nav-desc';
 
-type MoviePageProps = {
-  films: FilmType[]
-}
-
-function MoviePage({films}: MoviePageProps): JSX.Element {
-  const {id} = useParams<{id: string}>();
-  const film: FilmType | undefined = getFilmById(films, id);
+function MoviePage(): JSX.Element {
   const navigate = useNavigate();
+  const {id} = useParams();
+  const dispatch = useAppDispatch();
 
-  if (film === undefined) {
+  useEffect(() => {
+    dispatch(fetchFilmByIdAction(Number(id)));
+    dispatch(fetchSimilarFilmAction(Number(id)));
+  }, [id]);
+
+  const {currentOpenFilm, similarFilms} = useAppSelector((state) => state);
+
+  if (currentOpenFilm === null) {
     return <Navigate to="/404"/>;
   }
 
@@ -26,7 +28,7 @@ function MoviePage({films}: MoviePageProps): JSX.Element {
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={film.backgroundImage} alt={film.name} />
+            <img src={currentOpenFilm.backgroundImage} alt={currentOpenFilm.name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -35,14 +37,14 @@ function MoviePage({films}: MoviePageProps): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{film.name}</h2>
+              <h2 className="film-card__title">{currentOpenFilm.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{film.genre}</span>
-                <span className="film-card__year">{film.released}</span>
+                <span className="film-card__genre">{currentOpenFilm.genre}</span>
+                <span className="film-card__year">{currentOpenFilm.released}</span>
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button" onClick={() => navigate(`/player/${id}`)}>
+                <button className="btn btn--play film-card__button" type="button" onClick={() => navigate(`/player/${currentOpenFilm.id}`)}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
@@ -54,7 +56,7 @@ function MoviePage({films}: MoviePageProps): JSX.Element {
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>
+                <Link to={`/films/${currentOpenFilm.id}/review`} className="btn film-card__button">Add review</Link>
               </div>
             </div>
           </div>
@@ -63,15 +65,15 @@ function MoviePage({films}: MoviePageProps): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={film.posterImage} alt={film.name} width="218" height="327" />
+              <img src={currentOpenFilm.posterImage} alt={currentOpenFilm.name} width="218" height="327" />
             </div>
-            <MovieNavDesc film={film}/>
+            <MovieNavDesc film={currentOpenFilm}/>
           </div>
         </div>
       </section>
 
       <div className="page-content">
-        <MoreLikeThis films={films} genre={film.genre}/>
+        <MoreLikeThis films={similarFilms}/>
         <Footer/>
       </div>
     </React.Fragment>

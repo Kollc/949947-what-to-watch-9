@@ -3,16 +3,13 @@ import ListFilmsCard from '../list-films-card/list-films-card';
 
 type MoreLikeThisProps = {
   films: FilmType[],
-  genre: string,
 }
 
-function MoreLikeThis({films, genre}: MoreLikeThisProps): JSX.Element {
-  const likeFilms = films.filter((film) => film.genre === genre);
-
+function MoreLikeThis({films}: MoreLikeThisProps): JSX.Element {
   return (
     <section className="catalog catalog--like-this">
       <h2 className="catalog__title">More like this</h2>
-      <ListFilmsCard films={likeFilms}/>
+      <ListFilmsCard films={films}/>
     </section>
   );
 }
