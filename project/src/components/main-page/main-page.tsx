@@ -7,19 +7,25 @@ import CatalogGenresList from '../catalog-genres-list/catalog-genres-list';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import ListFilmsCard from '../list-films-card/list-films-card';
+import LoadingScreen from '../loading-screen/loading-screen';
 import PromoFilm from '../promo-film/promo-film';
 import ShowMore from '../show-more/show-more';
 
 type MainPageProps = {
-  promoFilm: FilmType,
   films: FilmType[],
 }
 
-function MainPage({films, promoFilm}: MainPageProps): JSX.Element {
-  const {genre} = useAppSelector((state) => state);
+function MainPage({films}: MainPageProps): JSX.Element {
+  const {genre, isDataLoaded, promoFilm} = useAppSelector((state) => state);
   const [countFilmShow, setCountFilmShow] = useState(COUNT_FILM_LOADED);
   const allGenre = getAllGenres(films);
   const currentFilms = getFilmsByGenre(films, genre).slice(0, countFilmShow);
+
+  if (!isDataLoaded || promoFilm === null) {
+    return (
+      <LoadingScreen/>
+    );
+  }
 
   return (
     <>

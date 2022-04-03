@@ -63,7 +63,7 @@ function MovieNavDesc({film}: MovieNavDescProps): JSX.Element {
       </nav>
       {currentLink === MoviePageTabLinks.overview && <MovieOverviewTab film={film}/>}
       {currentLink === MoviePageTabLinks.details && <MovieDetailsTab film={film}/>}
-      {currentLink === MoviePageTabLinks.reviews && <MovieReviewsTab/>}
+      {currentLink === MoviePageTabLinks.reviews && <MovieReviewsTab filmId={film.id}/>}
     </div>
   );
 }

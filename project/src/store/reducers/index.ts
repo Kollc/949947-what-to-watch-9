@@ -1,4 +1,4 @@
-import { dataIsLoading, loadCurrentFilm, loadSimilarFilms, resetUser, setUser } from './../actions/actions';
+import { dataIsLoading, resetUser, setUser } from './../actions/actions';
 import { createReducer } from '@reduxjs/toolkit';
 import { AuthorizationStatus, DEFAULT_FILTER_GENRE_VALUE } from '../../consts';
 import { FilmType } from '../../types';
@@ -50,16 +50,8 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(resetUser, (state) => {
       state.user = null;
     })
-    .addCase(loadCurrentFilm, (state, action) => {
-      state.currentOpenFilm = action.payload;
-      state.isDataLoaded = true;
-    })
     .addCase(dataIsLoading, (state) => {
       state.isDataLoaded  = false;
-    })
-    .addCase(loadSimilarFilms, (state, action) => {
-      state.similarFilms = action.payload;
-      state.isDataLoaded = true;
     })
     .addCase(loadFilms, (state, action) => {
       state.films = action.payload;

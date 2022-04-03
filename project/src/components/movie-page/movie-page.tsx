@@ -1,25 +1,36 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchFilmByIdAction, fetchSimilarFilmAction } from '../../store/actions/api-actions';
+import { AuthorizationStatus } from '../../consts';
+import { useAppSelector } from '../../hooks';
+import { getFilmById } from '../../services/api';
+import { FilmType } from '../../types';
 import Footer from '../footer/footer';
 import Header from '../header/header';
+import LoadingScreen from '../loading-screen/loading-screen';
 import MoreLikeThis from '../more-like-this/more-like-this';
 import MovieNavDesc from './movie-nav-desc/movie-nav-desc';
 
 function MoviePage(): JSX.Element {
   const navigate = useNavigate();
   const {id} = useParams();
-  const dispatch = useAppDispatch();
+  const [film, setFilm] = useState<FilmType | null>(null);
+  const [loading, setLoading]= useState(true);
+  const {requireAuthorization} = useAppSelector((state) => state);
 
   useEffect(() => {
-    dispatch(fetchFilmByIdAction(Number(id)));
-    dispatch(fetchSimilarFilmAction(Number(id)));
+    getFilmById(Number(id)).then((data) => {
+      setFilm(data);
+      setLoading(false);
+    });
   }, [id]);
 
-  const {currentOpenFilm, similarFilms} = useAppSelector((state) => state);
+  if (loading) {
+    return (
+      <LoadingScreen/>
+    );
+  }
 
-  if (currentOpenFilm === null) {
+  if (film === null) {
     return <Navigate to="/404"/>;
   }
 
@@ -28,7 +39,7 @@ function MoviePage(): JSX.Element {
       <section className="film-card film-card--full">
         <div className="film-card__hero">
           <div className="film-card__bg">
-            <img src={currentOpenFilm.backgroundImage} alt={currentOpenFilm.name} />
+            <img src={film.backgroundImage} alt={film.name} />
           </div>
 
           <h1 className="visually-hidden">WTW</h1>
@@ -37,14 +48,14 @@ function MoviePage(): JSX.Element {
 
           <div className="film-card__wrap">
             <div className="film-card__desc">
-              <h2 className="film-card__title">{currentOpenFilm.name}</h2>
+              <h2 className="film-card__title">{film.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{currentOpenFilm.genre}</span>
-                <span className="film-card__year">{currentOpenFilm.released}</span>
+                <span className="film-card__genre">{film.genre}</span>
+                <span className="film-card__year">{film.released}</span>
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button" onClick={() => navigate(`/player/${currentOpenFilm.id}`)}>
+                <button className="btn btn--play film-card__button" type="button" onClick={() => navigate(`/player/${film.id}`)}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
@@ -56,7 +67,9 @@ function MoviePage(): JSX.Element {
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link to={`/films/${currentOpenFilm.id}/review`} className="btn film-card__button">Add review</Link>
+                {
+                  requireAuthorization === AuthorizationStatus.Auth  &&  <Link to={`/films/${film.id}/review`} className="btn film-card__button">Add review</Link>
+                }
               </div>
             </div>
           </div>
@@ -65,15 +78,15 @@ function MoviePage(): JSX.Element {
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
             <div className="film-card__poster film-card__poster--big">
-              <img src={currentOpenFilm.posterImage} alt={currentOpenFilm.name} width="218" height="327" />
+              <img src={film.posterImage} alt={film.name} width="218" height="327" />
             </div>
-            <MovieNavDesc film={currentOpenFilm}/>
+            <MovieNavDesc film={film}/>
           </div>
         </div>
       </section>
 
       <div className="page-content">
-        <MoreLikeThis films={similarFilms}/>
+        <MoreLikeThis filmId={film.id}/>
         <Footer/>
       </div>
     </React.Fragment>

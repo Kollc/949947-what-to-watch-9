@@ -11,6 +11,4 @@ export const requireAuthorization = createAction<AuthorizationStatus>('user/requ
 export const redirectToRoute = createAction<AppRoute>('user/redirectToRoute');
 export const setUser = createAction<UserData>('user/setUser');
 export const resetUser = createAction('user/resetUser');
-export const loadCurrentFilm = createAction<FilmType>('data/loadFilmCurrentFilm');
-export const loadSimilarFilms = createAction<FilmType[]>('data/loadSimilarFilms');
 export const dataIsLoading = createAction('data/dataIsLoading');
