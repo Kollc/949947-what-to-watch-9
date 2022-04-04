@@ -29,7 +29,7 @@ function CardItem({film}: CardITemProps): JSX.Element {
         <PlayerPreview src={film.videoLink} poster={film.posterImage} isActive={isActive} />
       </div>
       <h3 className='small-film-card__title'>
-        <Link className='small-film-card__link' to={`/films/${film.id}`} onClick={() =>  clearTimeout(activeTimer)}>{film.name}</Link>
+        <Link className='small-film-card__link' to={`/films/${film.id}`} onClick={() => clearTimeout(activeTimer)}>{film.name}</Link>
       </h3>
     </article>
   );

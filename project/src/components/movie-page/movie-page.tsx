@@ -1,23 +1,36 @@
-import React from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
+import { AuthorizationStatus } from '../../consts';
+import { useAppSelector } from '../../hooks';
+import { getFilmById } from '../../services/api';
 import { FilmType } from '../../types';
-import { getFilmById } from '../../utils';
 import Footer from '../footer/footer';
 import Header from '../header/header';
+import LoadingScreen from '../loading-screen/loading-screen';
 import MoreLikeThis from '../more-like-this/more-like-this';
 import MovieNavDesc from './movie-nav-desc/movie-nav-desc';
 
-type MoviePageProps = {
-  films: FilmType[]
-}
-
-function MoviePage({films}: MoviePageProps): JSX.Element {
-  const {id} = useParams<{id: string}>();
-  const film: FilmType | undefined = getFilmById(films, id);
+function MoviePage(): JSX.Element {
   const navigate = useNavigate();
+  const {id} = useParams();
+  const [film, setFilm] = useState<FilmType | null>(null);
+  const [loading, setLoading]= useState(true);
+  const {requireAuthorization} = useAppSelector((state) => state);
 
-  if (film === undefined) {
+  useEffect(() => {
+    getFilmById(Number(id)).then((data) => {
+      setFilm(data);
+      setLoading(false);
+    });
+  }, [id]);
+
+  if (loading) {
+    return (
+      <LoadingScreen/>
+    );
+  }
+
+  if (film === null) {
     return <Navigate to="/404"/>;
   }
 
@@ -42,7 +55,7 @@ function MoviePage({films}: MoviePageProps): JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button" onClick={() => navigate(`/player/${id}`)}>
+                <button className="btn btn--play film-card__button" type="button" onClick={() => navigate(`/player/${film.id}`)}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
@@ -54,7 +67,9 @@ function MoviePage({films}: MoviePageProps): JSX.Element {
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link to={`/films/${id}/review`} className="btn film-card__button">Add review</Link>
+                {
+                  requireAuthorization === AuthorizationStatus.Auth  &&  <Link to={`/films/${film.id}/review`} className="btn film-card__button">Add review</Link>
+                }
               </div>
             </div>
           </div>
@@ -71,7 +86,7 @@ function MoviePage({films}: MoviePageProps): JSX.Element {
       </section>
 
       <div className="page-content">
-        <MoreLikeThis films={films} genre={film.genre}/>
+        <MoreLikeThis filmId={film.id}/>
         <Footer/>
       </div>
     </React.Fragment>

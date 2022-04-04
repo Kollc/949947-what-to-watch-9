@@ -18,12 +18,29 @@ export enum APIRoute {
   PromoFilm = '/promo',
   Login = '/login',
   Logout = '/logout',
+  Comment = '/comments',
 }
 
 export enum HTTP_CODE {
+  OK = 200,
   BAD_REQUEST = 400,
   UNAUTHORIZED = 401,
   NOT_FOUND = 404,
+}
+
+export enum TYPE_RATING_TEXT {
+  Bad = 'Bad',
+  Normal = 'Normal',
+  Good = 'Good',
+  VeryGood = 'VeryGood',
+  Awesome = 'Awesome'
+}
+
+export enum TYPE_RATING_VALUE {
+  Bad = 3,
+  Normal = 5,
+  Good = 8,
+  VeryGood = 10
 }
 
 export const COUNT_FILM_LOADED = 8;

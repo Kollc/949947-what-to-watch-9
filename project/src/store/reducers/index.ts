@@ -1,4 +1,4 @@
-import { resetUser, setUser } from './../actions/actions';
+import { dataIsLoading, resetUser, setUser } from './../actions/actions';
 import { createReducer } from '@reduxjs/toolkit';
 import { AuthorizationStatus, DEFAULT_FILTER_GENRE_VALUE } from '../../consts';
 import { FilmType } from '../../types';
@@ -13,6 +13,8 @@ type initialStateTypes = {
   isDataLoaded: boolean,
   requireAuthorization: AuthorizationStatus,
   user: UserData | null,
+  currentOpenFilm: FilmType | null,
+  similarFilms: FilmType[],
 }
 
 const initialState: initialStateTypes = {
@@ -23,6 +25,8 @@ const initialState: initialStateTypes = {
   isDataLoaded: false,
   requireAuthorization: AuthorizationStatus.Unknown,
   user: null,
+  currentOpenFilm: null,
+  similarFilms: [],
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -35,6 +39,7 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadPromoFilm, (state, action) => {
       state.promoFilm = action.payload;
+      state.isDataLoaded = true;
     })
     .addCase(requireAuthorization, (state, action) => {
       state.requireAuthorization = action.payload;
@@ -44,6 +49,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(resetUser, (state) => {
       state.user = null;
+    })
+    .addCase(dataIsLoading, (state) => {
+      state.isDataLoaded  = false;
     })
     .addCase(loadFilms, (state, action) => {
       state.films = action.payload;

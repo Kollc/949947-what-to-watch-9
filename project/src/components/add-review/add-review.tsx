@@ -1,18 +1,37 @@
+import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus } from '../../consts';
+import { useAppSelector } from '../../hooks';
+import { getFilmById } from '../../services/api';
 import { FilmType } from '../../types';
-import { getFilmById } from '../../utils';
 import Header from '../header/header';
+import LoadingScreen from '../loading-screen/loading-screen';
 import AddReviewForm from './add-review-form/add-review-form';
 
-type AddReviewPageProps = {
-  films: FilmType[]
-}
-
-function AddReviewPage({films}: AddReviewPageProps): JSX.Element  {
+function AddReviewPage(): JSX.Element  {
   const {id} = useParams<{id: string}>();
-  const film: FilmType | undefined = getFilmById(films, id);
+  const [film, setFilm] = useState<FilmType | null>(null);
+  const [loading, setLoading]= useState(true);
+  const {requireAuthorization} = useAppSelector((state) => state);
 
-  if (film === undefined) {
+  useEffect(() => {
+    getFilmById(Number(id)).then((data) => {
+      setFilm(data);
+      setLoading(false);
+    });
+  }, [id]);
+
+  if(requireAuthorization !== AuthorizationStatus.Auth) {
+    return <Navigate to={AppRoute.SignIn}/>;
+  }
+
+  if (loading) {
+    return (
+      <LoadingScreen/>
+    );
+  }
+
+  if (film === null) {
     return <Navigate to="/404"/>;
   }
 
@@ -33,7 +52,7 @@ function AddReviewPage({films}: AddReviewPageProps): JSX.Element  {
       </div>
 
       <div className="add-review">
-        <AddReviewForm/>
+        <AddReviewForm filmId={film.id}/>
       </div>
 
     </section>
