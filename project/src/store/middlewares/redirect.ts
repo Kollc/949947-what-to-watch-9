@@ -1,9 +1,9 @@
+import { rootReducer } from './../reducers/root-reducer';
 import { Middleware } from '@reduxjs/toolkit';
 import browserHistory from '../../browse-history';
-import { reducer } from '../reducers';
 
 
-type Reducer = ReturnType<typeof reducer>;
+type Reducer = ReturnType<typeof rootReducer>;
 
 export const redirect: Middleware<unknown, Reducer> = (_store) => (next) => (action) => {
   if (action.type === 'user/redirectToRoute') {

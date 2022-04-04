@@ -1,13 +1,12 @@
-import { FilmType } from '../../types';
+import { useAppSelector } from '../../hooks';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import ListFilmsCard from '../list-films-card/list-films-card';
 
-type MyListPageProps = {
-  films: FilmType[]
-}
 
-function MyListPage({films}: MyListPageProps): JSX.Element {
+function MyListPage(): JSX.Element {
+  const {films} = useAppSelector((state) => state.DATA);
+
   return (
     <div className="user-page">
       <Header/>

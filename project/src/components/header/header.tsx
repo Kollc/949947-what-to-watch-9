@@ -6,7 +6,7 @@ import Logo from '../logo/logo';
 
 function Header(): JSX.Element {
   const navigate = useNavigate();
-  const { requireAuthorization } = useAppSelector((state) => state);
+  const { requireAuthorization, user } = useAppSelector((state) => state.USER);
   const dispatch = useAppDispatch();
 
   return (
@@ -29,7 +29,7 @@ function Header(): JSX.Element {
           <ul className="user-block">
             <li className="user-block__item">
               <div className="user-block__avatar" onClick={() => navigate('/mylist')}>
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63"/>
+                <img src={user?.avatarUrl} alt="User avatar" width="63" height="63"/>
               </div>
             </li>
             <li className="user-block__item">

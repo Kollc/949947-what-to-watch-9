@@ -43,6 +43,12 @@ export enum TYPE_RATING_VALUE {
   VeryGood = 10
 }
 
+export enum NameSpace {
+  data = 'DATA',
+  film = 'FILM',
+  user = 'USER',
+}
+
 export const COUNT_FILM_LOADED = 8;
 export const DEFAULT_FILTER_GENRE_VALUE = 'All genres';
 export const TIMEOUT_SHOW_ERROR = 2000;

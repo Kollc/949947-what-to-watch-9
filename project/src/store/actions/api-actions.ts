@@ -2,10 +2,13 @@ import { APIRoute, AppRoute, AuthorizationStatus, TIMEOUT_SHOW_ERROR } from './.
 import { store, api } from '../store';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { FilmType } from '../../types';
-import { dataIsLoading, loadFilms, loadPromoFilm, redirectToRoute, requireAuthorization, resetUser, setError, setUser } from './actions';
+import { redirectToRoute } from './actions';
 import { errorHandle } from '../../services/error-handler';
 import { AuthData, UserData } from '../../types/user';
 import { dropToken, saveToken } from '../../services/token';
+import { dataIsLoading, loadFilms, loadPromoFilm } from '../film-data/film-data';
+import { requireAuthorization, resetUser, setUser } from '../user-process/user-process';
+import { setError } from '../film-process/film-process';
 
 export const clearErrorAction = createAsyncThunk(
   'game/clearError',
