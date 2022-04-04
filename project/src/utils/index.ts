@@ -1,8 +1,6 @@
 import { DEFAULT_FILTER_GENRE_VALUE, TYPE_RATING_TEXT, TYPE_RATING_VALUE } from '../consts';
 import { FilmType } from '../types';
 
-const getFilmById = (films: FilmType[], id: string | undefined): FilmType | undefined => films.find((film) => film.id === Number(id));
-
 const formatFilmRunTime = (time: number) => {
   const hours = Math.floor(time / 60);
   const minutes = time % 60;
@@ -40,7 +38,6 @@ const getFromatedDate = (date: string): string => {
 };
 
 export {
-  getFilmById,
   formatFilmRunTime,
   getAllGenres,
   getFilmsByGenre,

@@ -1,16 +1,29 @@
+import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
+import { getFilmById } from '../../services/api';
 import { FilmType } from '../../types';
-import { getFilmById } from '../../utils';
+import LoadingScreen from '../loading-screen/loading-screen';
 
-type PlayerProps ={
-  films: FilmType[]
-}
-
-function Player({films}: PlayerProps): JSX.Element {
+function Player(): JSX.Element {
   const {id} = useParams<{id: string}>();
-  const film: FilmType | undefined = getFilmById(films, id);
+  const [film, setFilm] = useState<FilmType | null>(null);
+  const [loading, setLoading]= useState(true);
 
-  if (film === undefined) {
+
+  useEffect(() => {
+    getFilmById(Number(id)).then((data) => {
+      setFilm(data);
+      setLoading(false);
+    });
+  }, [id]);
+
+  if (loading) {
+    return (
+      <LoadingScreen/>
+    );
+  }
+
+  if (film === null) {
     return <Navigate to="/404"/>;
   }
 

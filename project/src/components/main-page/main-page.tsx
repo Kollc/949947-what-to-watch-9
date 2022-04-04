@@ -1,25 +1,13 @@
-import { useState } from 'react';
-import { COUNT_FILM_LOADED } from '../../consts';
 import { useAppSelector } from '../../hooks';
-import { FilmType } from '../../types';
-import { getAllGenres, getFilmsByGenre } from '../../utils';
-import CatalogGenresList from '../catalog-genres-list/catalog-genres-list';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import ListFilmsCard from '../list-films-card/list-films-card';
 import LoadingScreen from '../loading-screen/loading-screen';
 import PromoFilm from '../promo-film/promo-film';
-import ShowMore from '../show-more/show-more';
 
-type MainPageProps = {
-  films: FilmType[],
-}
-
-function MainPage({films}: MainPageProps): JSX.Element {
-  const {genre, isDataLoaded, promoFilm} = useAppSelector((state) => state);
-  const [countFilmShow, setCountFilmShow] = useState(COUNT_FILM_LOADED);
-  const allGenre = getAllGenres(films);
-  const currentFilms = getFilmsByGenre(films, genre).slice(0, countFilmShow);
+function MainPage(): JSX.Element {
+  const {isDataLoaded, promoFilm} = useAppSelector((state) => state.DATA);
+  const {films} = useAppSelector((state) => state.DATA);
 
   if (!isDataLoaded || promoFilm === null) {
     return (
@@ -33,7 +21,6 @@ function MainPage({films}: MainPageProps): JSX.Element {
         <div className="film-card__bg">
           <img src={promoFilm.backgroundImage} alt={promoFilm.name}/>
         </div>
-
         <h1 className="visually-hidden">WTW</h1>
         <Header/>
         <PromoFilm promoFilm={promoFilm}/>
@@ -42,13 +29,8 @@ function MainPage({films}: MainPageProps): JSX.Element {
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <CatalogGenresList allGenre={allGenre} setCountFilmShow={setCountFilmShow}/>
-
-          <ListFilmsCard films={currentFilms}/>
-
-          {countFilmShow <= currentFilms.length ? <ShowMore countFilmShow={countFilmShow} setCountFilmShow={setCountFilmShow}/> : ''}
+          <ListFilmsCard films={films}/>
         </section>
-
         <Footer/>
       </div>
     </>

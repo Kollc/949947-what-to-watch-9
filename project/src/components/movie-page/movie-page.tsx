@@ -15,7 +15,7 @@ function MoviePage(): JSX.Element {
   const {id} = useParams();
   const [film, setFilm] = useState<FilmType | null>(null);
   const [loading, setLoading]= useState(true);
-  const {requireAuthorization} = useAppSelector((state) => state);
+  const {requireAuthorization} = useAppSelector((state) => state.USER);
 
   useEffect(() => {
     getFilmById(Number(id)).then((data) => {

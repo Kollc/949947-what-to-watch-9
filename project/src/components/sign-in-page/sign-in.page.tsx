@@ -9,7 +9,7 @@ import Header from '../header/header';
 
 function SignInPage(): JSX.Element {
   const dispatch = useAppDispatch();
-  const {requireAuthorization} = useAppSelector((state) => state);
+  const {requireAuthorization} = useAppSelector((state) => state.USER);
   const emailInput = useRef<HTMLInputElement>(null);
   const passwordInput = useRef<HTMLInputElement>(null);
 
