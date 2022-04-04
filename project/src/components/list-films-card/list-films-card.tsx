@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { COUNT_FILM_LOADED, DEFAULT_FILTER_GENRE_VALUE } from '../../consts';
 import { FilmType } from '../../types';
 import { getAllGenres, getFilmsByGenre } from '../../utils';
@@ -20,7 +20,7 @@ function ListFilmsCard({films}: ListFilmsCardProps): JSX.Element {
     <>
       <CatalogGenresList currentGenre={genre} setGenre={setGenre} allGenre={allGenre} setCountFilmShow={setCountFilmShow}/>
       <div className="catalog__films-list">
-        {currentFilms.map((film) => (<CardItem key={film.id} film={film}/>))}
+        {useMemo(() => currentFilms.map((film) => (<CardItem key={film.id} film={film}/>)), [currentFilms])}
       </div>
       {countFilmShow <= currentFilms.length ? <ShowMore countFilmShow={countFilmShow} setCountFilmShow={setCountFilmShow}/> : ''}
     </>
