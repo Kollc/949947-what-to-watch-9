@@ -105,11 +105,7 @@ export const addFavoriteAction = createAsyncThunk(
 export const fetchFavoriteListAction = createAsyncThunk(
   'data/fetchFavoriteList',
   async () => {
-    try {
-      const {data} = await api.get<FilmType>(`${APIRoute.Favorite}`);
-      store.dispatch(loadFavoriteList(data));
-    } catch (error) {
-      // errorHandle(error);
-    }
+    const {data} = await api.get<FilmType>(`${APIRoute.Favorite}`);
+    store.dispatch(loadFavoriteList(data));
   },
 );
