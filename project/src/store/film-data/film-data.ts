@@ -5,7 +5,8 @@ import { NameSpace } from '../../consts';
 const initialState: FilmDataType = {
   films: [],
   promoFilm: null,
-  isDataLoaded: false,
+  isDataLoadedFilms: false,
+  favoriteList: [],
 };
 
 export const filmData = createSlice({
@@ -14,16 +15,20 @@ export const filmData = createSlice({
   reducers: {
     loadPromoFilm: (state, action) => {
       state.promoFilm = action.payload;
-      state.isDataLoaded = true;
+      state.isDataLoadedFilms = true;
     },
     dataIsLoading: (state) => {
-      state.isDataLoaded  = false;
+      state.isDataLoadedFilms  = false;
     },
     loadFilms: (state, action) => {
       state.films = action.payload;
-      state.isDataLoaded = true;
+      state.isDataLoadedFilms = true;
+    },
+    loadFavoriteList: (state, action) => {
+      state.favoriteList = action.payload;
+      state.isDataLoadedFilms = true;
     },
   },
 });
 
-export const {loadPromoFilm, dataIsLoading, loadFilms} = filmData.actions;
+export const {loadPromoFilm, dataIsLoading, loadFilms, loadFavoriteList} = filmData.actions;

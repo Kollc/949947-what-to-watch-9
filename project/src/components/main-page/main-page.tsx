@@ -6,10 +6,10 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import PromoFilm from '../promo-film/promo-film';
 
 function MainPage(): JSX.Element {
-  const {isDataLoaded, promoFilm} = useAppSelector((state) => state.DATA);
+  const {isDataLoadedFilms, promoFilm} = useAppSelector((state) => state.DATA);
   const {films} = useAppSelector((state) => state.DATA);
 
-  if (!isDataLoaded || promoFilm === null) {
+  if (!isDataLoadedFilms || promoFilm === null) {
     return (
       <LoadingScreen/>
     );

@@ -1,7 +1,7 @@
 import request from 'axios';
 import { HTTP_CODE } from '../consts';
+import { clearErrorAction } from '../store/actions/api-actions';
 import { setError } from '../store/film-process/film-process';
-// import { clearErrorAction } from '../store/actions/api-actions';
 import { store } from '../store/store';
 import { ErrorType } from '../types';
 
@@ -12,7 +12,7 @@ export const errorHandle = (error: ErrorType): void => {
 
   const handleError = (message: string) => {
     store.dispatch(setError(message));
-    // store.dispatch(clearErrorAction());
+    store.dispatch(clearErrorAction());
   };
 
   const {response} = error;

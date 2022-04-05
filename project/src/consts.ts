@@ -19,7 +19,14 @@ export enum APIRoute {
   Login = '/login',
   Logout = '/logout',
   Comment = '/comments',
+  Favorite = '/favorite',
 }
+
+export enum FavoriteFetchType {
+  Add = 1,
+  Remove = 0,
+}
+
 
 export enum HTTP_CODE {
   OK = 200,
