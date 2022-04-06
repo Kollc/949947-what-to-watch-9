@@ -51,6 +51,10 @@ function Player(): JSX.Element {
     return `${Math.floor(timeLeft / 60)  }:${  (`0${  Math.floor(timeLeft % 60)}`).slice(-2)}`;
   };
 
+  const clickFullScreenHandler = () => {
+    player.current.requestFullscreen();
+  };
+
   const exitPlayer = () => {
     navigate(-1);
   };
@@ -100,7 +104,7 @@ function Player(): JSX.Element {
 
           <div className="player__name">Transpotting</div>
 
-          <button type="button" className="player__full-screen">
+          <button type="button" className="player__full-screen" onClick={clickFullScreenHandler}>
             <svg viewBox="0 0 27 27" width="27" height="27">
               <use xlinkHref="#full-screen"></use>
             </svg>
