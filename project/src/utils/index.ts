@@ -37,10 +37,21 @@ const getFromatedDate = (date: string): string => {
   return newDate.toLocaleString('en-US', {month: 'long', day: 'numeric', year: 'numeric'});
 };
 
+const checkFilmInFavoriteList = (film: FilmType, favoritList: FilmType[]) => {
+  const result = favoritList.filter((filmFromList) => filmFromList.id === film.id);
+
+  if(result.length > 0) {
+    return true;
+  }
+
+  return false;
+};
+
 export {
   formatFilmRunTime,
   getAllGenres,
   getFilmsByGenre,
   getTextRatingDescription,
-  getFromatedDate
+  getFromatedDate,
+  checkFilmInFavoriteList
 };
