@@ -6,6 +6,7 @@ import { getFilmById } from '../../services/api';
 import { FilmType } from '../../types';
 import Header from '../header/header';
 import LoadingScreen from '../loading-screen/loading-screen';
+import AddReviewBreadcrumbs from './add-review-breadcrumbs/add-review-breadcrumbs';
 import AddReviewForm from './add-review-form/add-review-form';
 
 function AddReviewPage(): JSX.Element  {
@@ -44,7 +45,9 @@ function AddReviewPage(): JSX.Element  {
 
         <h1 className="visually-hidden">WTW</h1>
 
-        <Header/>
+        <Header>
+          <AddReviewBreadcrumbs film={film}/>
+        </Header>
 
         <div className="film-card__poster film-card__poster--small">
           <img src={film.posterImage} alt={film.name} width="218" height="327" />

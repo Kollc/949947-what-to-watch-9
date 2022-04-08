@@ -4,7 +4,11 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/actions/api-actions';
 import Logo from '../logo/logo';
 
-function Header(): JSX.Element {
+type HeaderProps = {
+  children?: JSX.Element | null;
+}
+
+function Header({children}: HeaderProps): JSX.Element {
   const navigate = useNavigate();
   const { requireAuthorization, user } = useAppSelector((state) => state.USER);
   const dispatch = useAppDispatch();
@@ -12,17 +16,7 @@ function Header(): JSX.Element {
   return (
     <header className="page-header film-card__head">
       <Logo/>
-      <nav className="breadcrumbs">
-        <ul className="breadcrumbs__list">
-          <li className="breadcrumbs__item">
-            <a href="film-page.html" className="breadcrumbs__link">The Grand Budapest Hotel</a>
-          </li>
-          <li className="breadcrumbs__item">
-            <a className="breadcrumbs__link">Add review</a>
-          </li>
-        </ul>
-      </nav>
-
+      {children}
       {
         requireAuthorization === AuthorizationStatus.Auth
           ?
