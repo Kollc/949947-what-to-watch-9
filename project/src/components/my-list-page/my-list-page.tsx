@@ -10,7 +10,7 @@ function MyListPage(): JSX.Element {
   return (
     <div className="user-page">
       <Header/>
-      <section className="catalog">
+      <section className="catalog" data-testid="my-list">
         <h2 className="catalog__title visually-hidden">Catalog</h2>
         <ListFilmsCard films={favoriteList}/>
       </section>
