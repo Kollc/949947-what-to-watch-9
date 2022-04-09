@@ -27,7 +27,7 @@ function Header({children}: HeaderProps): JSX.Element {
               </div>
             </li>
             <li className="user-block__item">
-              <a className="user-block__link" onClick={() => dispatch(logoutAction())}>Sign out</a>
+              <a className="user-block__link" onClick={() => dispatch(logoutAction())} data-testid='sign-out'>Sign out</a>
             </li>
           </ul>
           :

@@ -27,7 +27,7 @@ function MovieReviewsTab({filmId}: MovieReviewsTabProps): JSX.Element {
 
   return(
     <div className="film-card__reviews film-card__row">
-      <div className="film-card__reviews-col">
+      <div className="film-card__reviews-col" data-testid='review-wrapper'>
 
         {comments.map((comment) => (
           <div className="review" key={comment.id}>

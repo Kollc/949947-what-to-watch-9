@@ -27,7 +27,7 @@ function PromoFilm({promoFilm}: PromoFilmProps): JSX.Element {
   }, [favoriteList, promoFilm]);
 
   return (
-    <div className="film-card__wrap">
+    <div className="film-card__wrap" data-testid='promo-film'>
       <div className="film-card__info">
         <div className="film-card__poster">
           <img src={posterImage} alt="The Grand Budapest Hotel poster" width="218" height="327" />
@@ -41,14 +41,14 @@ function PromoFilm({promoFilm}: PromoFilmProps): JSX.Element {
           </p>
 
           <div className="film-card__buttons">
-            <button className="btn btn--play film-card__button" type="button" onClick={() => navigate(`/player/${promoFilm.id}`)}>
+            <button className="btn btn--play film-card__button" type="button" onClick={() => navigate(`/player/${promoFilm.id}`)} data-testid='play-promo-film'>
               <svg viewBox="0 0 19 19" width="19" height="19">
                 <use xlinkHref="#play-s"></use>
               </svg>
               <span>Play</span>
             </button>
             {AuthorizationStatus.Auth === requireAuthorization && (
-              <button className="btn btn--list film-card__button" type="button" onClick={() =>  dispatch(addFavoriteAction({filmId: promoFilm.id, type: typeFavoriteAction}))}>
+              <button className="btn btn--list film-card__button" type="button" onClick={() =>  dispatch(addFavoriteAction({filmId: promoFilm.id, type: typeFavoriteAction}))} data-testid='my-list'>
                 {
                   typeFavoriteAction
                     ?

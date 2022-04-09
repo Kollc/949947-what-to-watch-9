@@ -38,7 +38,7 @@ function AddReviewPage(): JSX.Element  {
 
   return (
     <section className="film-card film-card--full">
-      <div className="film-card__header">
+      <div className="film-card__header" data-testid='film-card-in-add-review'>
         <div className="film-card__bg">
           <img src={film.previewImage} alt={film.name} />
         </div>
@@ -54,7 +54,7 @@ function AddReviewPage(): JSX.Element  {
         </div>
       </div>
 
-      <div className="add-review">
+      <div className="add-review" data-testid='add-review-form-wrapper'>
         <AddReviewForm filmId={film.id}/>
       </div>
 

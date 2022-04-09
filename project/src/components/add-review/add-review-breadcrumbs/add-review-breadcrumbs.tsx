@@ -7,13 +7,13 @@ type AddReviewBreadcrumbsProps = {
 
 function AddReviewBreadcrumbs({film}: AddReviewBreadcrumbsProps): JSX.Element {
   return (
-    <nav className="breadcrumbs">
+    <nav className="breadcrumbs" data-testid='breadcrumbs'>
       <ul className="breadcrumbs__list">
         <li className="breadcrumbs__item">
           <Link to={`/films/${film.id}`} className="breadcrumbs__link">{film.name}</Link>
         </li>
         <li className="breadcrumbs__item">
-          <a className="breadcrumbs__link">Add review</a>
+          <Link to='' className="breadcrumbs__link">Add review</Link>
         </li>
       </ul>
     </nav>

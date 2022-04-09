@@ -71,8 +71,8 @@ function Player(): JSX.Element {
   }
 
   return (
-    <div className="player">
-      <video ref={player} src={film?.videoLink} id="video" className="player__video" poster={film?.posterImage}></video>
+    <div className="player" data-testid='player'>
+      <video data-testid='video' ref={player} src={film?.videoLink} id="video" className="player__video" poster={film?.posterImage}></video>
 
       <button type="button" className="player__exit" onClick={exitPlayer}>Exit</button>
 
@@ -94,7 +94,7 @@ function Player(): JSX.Element {
               <span>Pause</span>
             </button>
           ) : (
-            <button type="button" className="player__play" onClick={clickPlayHandler}>
+            <button type="button" className="player__play" onClick={clickPlayHandler} data-testid='play'>
               <svg viewBox="0 0 19 19" width="19" height="19">
                 <use xlinkHref="#play-s"></use>
               </svg>

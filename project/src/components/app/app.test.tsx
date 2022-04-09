@@ -1,4 +1,4 @@
-import {render, screen} from '@testing-library/react';
+import {render, screen, waitFor} from '@testing-library/react';
 import {createMemoryHistory} from 'history';
 import {Provider} from 'react-redux';
 import {configureMockStore} from '@jedmao/redux-mock-store';
@@ -96,27 +96,50 @@ describe('Application Routing', () => {
     expect(screen.getByText('Return to main page')).toBeInTheDocument();
   });
 
-  // it('should render "MoviePage" when user navigate to "/films/:id"', () => {
-  //   history.push(AppRoute.Film);
+  it('should render "MoviePage" when user navigate to "/films/:id"', async () => {
+    history.push('/films/1');
 
-  //   render(fakeApp);
-  //   expect(screen.getByText(/Play/i)).toBeInTheDocument();
-  //   expect(screen.getByTestId('film-name')).toBeInTheDocument();
-  // });
+    render(fakeApp);
+    expect(screen.getByTestId('film-loader')).toBeInTheDocument();
 
-  // it('should render "AddReviewPage" when user navigate to "/films/:id/review"', () => {
-  //   history.push(AppRoute.Film);
+    await waitFor(() => {
+      expect(screen.getByText(/Play/i)).toBeInTheDocument();
+    });
 
-  //   render(fakeApp);
-  //   expect(screen.getByText(/Play/i)).toBeInTheDocument();
-  //   expect(screen.getByTestId('film-name')).toBeInTheDocument();
-  // });
+    await waitFor(() => {
+      expect(screen.getByTestId('film-name')).toBeInTheDocument();
+    });
+  });
 
-  // it('should render "Player" when user navigate to "/player/:id"', () => {
-  //   history.push(AppRoute.Film);
+  it('should render "AddReviewPage" when user navigate to "/films/:id/review"', async () => {
+    history.push('/films/1/review');
 
-  //   render(fakeApp);
-  //   expect(screen.getByText(/Play/i)).toBeInTheDocument();
-  //   expect(screen.getByTestId('film-name')).toBeInTheDocument();
-  // });
+    render(fakeAppAuth);
+
+    expect(screen.getByTestId('film-loader')).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.getByTestId('add-review-form-wrapper')).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId('film-card-in-add-review')).toBeInTheDocument();
+    });
+  });
+
+  it('should render "Player" when user navigate to "/player/:id"', async () => {
+    history.push('/player/1');
+
+    render(fakeApp);
+
+    expect(screen.getByTestId('film-loader')).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.getByTestId('player')).toBeInTheDocument();
+    });
+
+    await waitFor(() => {
+      expect(screen.getByTestId('video')).toBeInTheDocument();
+    });
+  });
 });

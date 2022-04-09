@@ -6,6 +6,7 @@ function ErrorMessage(): JSX.Element | null {
   if (error) {
     return (
       <div
+        data-testid='error-message'
         style={{
           position: 'fixed',
           bottom: '30px',

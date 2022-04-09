@@ -1,4 +1,5 @@
 import { MouseEvent } from 'react';
+import { Link } from 'react-router-dom';
 import { COUNT_FILM_LOADED } from '../../consts';
 
 type CatalogGenresListProps = {
@@ -16,12 +17,12 @@ function CatalogGenresList({allGenre, setCountFilmShow, setGenre, currentGenre}:
   };
 
   return (
-    <ul className="catalog__genres-list">
+    <ul className="catalog__genres-list" data-testid='catalog__genres-list'>
       {allGenre.map((genre: string) => (
         <li key={genre} className={`catalog__genres-item ${currentGenre === genre && 'catalog__genres-item--active'}`}>
-          <a href="#" className="catalog__genres-link" onClick={(evt) => clickToChangeGenreHandler(evt, genre)}>
+          <Link to='' className="catalog__genres-link" data-testid='catalog__genres-link' onClick={(evt) => clickToChangeGenreHandler(evt, genre)}>
             {genre}
-          </a>
+          </Link>
         </li>
       ))}
     </ul>
