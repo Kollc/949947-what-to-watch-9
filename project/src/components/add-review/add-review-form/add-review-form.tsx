@@ -47,7 +47,7 @@ function AddReviewForm({filmId}: AddReviewFormProps): JSX.Element {
   };
 
   return (
-    <form action="#" className="add-review__form" onSubmit={submitFormCommentHandler}>
+    <form action="#" className="add-review__form" onSubmit={submitFormCommentHandler} data-testid='add-review__form'>
       <AddReviewRating changeRatingHandler={changeRatingHandler} rating={rating} disabledForm={disabledForm}/>
       <div className="add-review__text">
         <textarea

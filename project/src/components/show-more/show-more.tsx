@@ -7,8 +7,8 @@ type ShowMoreProps = {
 
 function ShowMore({countFilmShow, setCountFilmShow}: ShowMoreProps): JSX.Element {
   return (
-    <div className="catalog__more">
-      <button className="catalog__button" type="button" onClick={() => setCountFilmShow(countFilmShow + COUNT_FILM_LOADED)}>Show more</button>
+    <div className="catalog__more" data-testid='show-more-wrapper'>
+      <button className="catalog__button" type="button" onClick={() => setCountFilmShow(countFilmShow + COUNT_FILM_LOADED)} data-testid='show-more-button'>Show more</button>
     </div>
   );
 }

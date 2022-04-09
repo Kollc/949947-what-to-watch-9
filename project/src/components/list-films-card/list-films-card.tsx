@@ -19,7 +19,7 @@ function ListFilmsCard({films}: ListFilmsCardProps): JSX.Element {
   return(
     <>
       <CatalogGenresList currentGenre={genre} setGenre={setGenre} allGenre={allGenre} setCountFilmShow={setCountFilmShow}/>
-      <div className="catalog__films-list">
+      <div className="catalog__films-list" data-testid='catalog__films-list'>
         {useMemo(() => currentFilms.map((film) => (<CardItem key={film.id} film={film}/>)), [currentFilms])}
       </div>
       {countFilmShow <= currentFilms.length ? <ShowMore countFilmShow={countFilmShow} setCountFilmShow={setCountFilmShow}/> : ''}

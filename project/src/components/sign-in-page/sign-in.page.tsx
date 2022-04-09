@@ -32,7 +32,7 @@ function SignInPage(): JSX.Element {
     <div className="user-page">
       <Header/>
       <div className="sign-in user-page__content">
-        <form action="#" className="sign-in__form" onSubmit={submitLoginFormHandler}>
+        <form action="#" className="sign-in__form" onSubmit={submitLoginFormHandler} data-testid='sign-in__form'>
           <div className="sign-in__fields">
             <div className="sign-in__field">
               <input
@@ -42,6 +42,7 @@ function SignInPage(): JSX.Element {
                 placeholder="Email address"
                 name="user-email" id="user-email"
                 required
+                data-testid='email'
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
             </div>
@@ -56,6 +57,7 @@ function SignInPage(): JSX.Element {
                 required
                 minLength={2}
                 onChange={(evt) => addErrorMessage(evt.target, checkValidatePassword(evt.target.value))}
+                data-testid='password'
               />
               <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
             </div>

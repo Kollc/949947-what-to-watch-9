@@ -8,22 +8,18 @@ import AddReviewPage from '../add-review/add-review';
 import Player from '../player/player';
 import NotFoundPage from '../not-found-page/not-found.page';
 import PrivateRoute from '../private-route/private-route';
-import HistoryRouter from '../history-route/history-route';
-import browserHistory from '../../browse-history';
 
 function App(): JSX.Element {
   return (
-    <HistoryRouter history={browserHistory}>
-      <Routes>
-        <Route path={AppRoute.Main} element={<MainPage/>}/>
-        <Route path={AppRoute.SignIn} element={<SignInPage/>}/>
-        <Route path={AppRoute.MyList} element={<PrivateRoute><MyListPage/></PrivateRoute>}/>
-        <Route path={AppRoute.Film} element={<MoviePage/>}/>
-        <Route path={AppRoute.AddReview} element={<PrivateRoute><AddReviewPage/></PrivateRoute>}/>
-        <Route path={AppRoute.Player} element={<Player/>}/>
-        <Route path="*" element={<NotFoundPage/>}/>
-      </Routes>
-    </HistoryRouter>
+    <Routes>
+      <Route path={AppRoute.Main} element={<MainPage/>}/>
+      <Route path={AppRoute.SignIn} element={<SignInPage/>}/>
+      <Route path={AppRoute.MyList} element={<PrivateRoute><MyListPage/></PrivateRoute>}/>
+      <Route path={AppRoute.Film} element={<MoviePage/>}/>
+      <Route path={AppRoute.AddReview} element={<PrivateRoute><AddReviewPage/></PrivateRoute>}/>
+      <Route path={AppRoute.Player} element={<Player/>}/>
+      <Route path="*" element={<NotFoundPage/>}/>
+    </Routes>
   );
 }
 

@@ -14,11 +14,12 @@ function AddReviewRating({rating, changeRatingHandler, disabledForm}: AddReviewR
   }
 
   return (
-    <div className="rating__stars">
+    <div className="rating__stars" data-testid='add-review-rating'>
       {ratingStarsCount.reverse().map((value) =>
         (
           <Fragment key={value}>
             <input
+              data-testid={`input-rating-${value}`}
               onChange={changeRatingHandler}
               className="rating__input"
               id={`star-${value}`}

@@ -25,7 +25,7 @@ function PlayerPreview({src, poster, isActive}: PlayerPreviewProps): JSX.Element
   }, [isActive]);
 
   return (
-    <video src={src} className="player__video" poster={poster} width="280" height="175" ref={videoRef} muted/>
+    <video src={src} className="player__video" poster={poster} width="280" height="175" ref={videoRef} muted data-testid='video-preview'/>
   );
 }
 
