@@ -25,15 +25,15 @@ export const errorHandle = (error: ErrorType, dispatch: AppDispatch): void => {
 
   if (response) {
     switch (response.status) {
-      case HttpCode.BAD_REQUEST:
+      case HttpCode.BadRequest:
         if(response.config.url === APIRoute.Login) {
           handleUserError(response.data.error);
         } else {
           handleError(response.data.error);
         }
         break;
-      case HttpCode.UNAUTHORIZED:
-      case HttpCode.NOT_FOUND:
+      case HttpCode.Unauthorized:
+      case HttpCode.NotFound:
       default:
         handleError(response.data.error);
         break;

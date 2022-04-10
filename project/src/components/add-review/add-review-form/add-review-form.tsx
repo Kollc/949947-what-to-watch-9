@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HTTP_CODE, MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH } from '../../../consts';
+import { HttpCode, MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH } from '../../../consts';
 import { useAppDispatch } from '../../../hooks';
 import { addNewComment } from '../../../services/api';
 import { setError } from '../../../store/film-process/film-process';
@@ -49,7 +49,7 @@ function AddReviewForm({filmId}: AddReviewFormProps): JSX.Element {
     setDisabledForm(true);
 
     addNewComment(comment, rating, filmId, setErrorFetch).then((res) => {
-      if(res?.status === HTTP_CODE.OK) {
+      if(res?.status === HttpCode.Ok) {
         navigate(-1);
       }
 

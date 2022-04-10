@@ -29,10 +29,10 @@ export enum FavoriteFetchType {
 
 
 export enum HttpCode {
-  OK = 200,
-  BAD_REQUEST = 400,
-  UNAUTHORIZED = 401,
-  NOT_FOUND = 404,
+  Ok = 200,
+  BadRequest = 400,
+  Unauthorized = 401,
+  NotFound = 404,
 }
 
 export enum TypeRatingText {
