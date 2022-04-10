@@ -1,6 +1,6 @@
 import { testFilms, testFilmsDifferentGenre, testPromoFilm } from './../test-mock/films';
 import { checkFilmInFavoriteList, formatFilmRunTime, getAllGenres, getFilmsByGenre, getFromatedDate, getTextRatingDescription } from '.';
-import { TYPE_RATING_TEXT } from '../consts';
+import { TypeRatingText } from '../consts';
 
 describe('Utils functions', () => {
   it('formatFilmRunTime should return is correct value', () => {
@@ -16,11 +16,11 @@ describe('Utils functions', () => {
   });
 
   it('getTextRatingDescription should return is correct value', () => {
-    expect(getTextRatingDescription(5)).toBe(TYPE_RATING_TEXT.Normal);
-    expect(getTextRatingDescription(10)).toBe(TYPE_RATING_TEXT.Awesome);
-    expect(getTextRatingDescription(7)).toBe(TYPE_RATING_TEXT.Good);
-    expect(getTextRatingDescription(9)).toBe(TYPE_RATING_TEXT.VeryGood);
-    expect(getTextRatingDescription(3)).toBe(TYPE_RATING_TEXT.Bad);
+    expect(getTextRatingDescription(5)).toBe(TypeRatingText.Normal);
+    expect(getTextRatingDescription(10)).toBe(TypeRatingText.Awesome);
+    expect(getTextRatingDescription(7)).toBe(TypeRatingText.Good);
+    expect(getTextRatingDescription(9)).toBe(TypeRatingText.VeryGood);
+    expect(getTextRatingDescription(3)).toBe(TypeRatingText.Bad);
   });
 
   it('getFromatedDate should return is correct value', () => {

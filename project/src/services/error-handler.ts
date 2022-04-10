@@ -1,7 +1,7 @@
 import { APIRoute } from './../consts';
 import { AppDispatch } from './../types/state';
 import request from 'axios';
-import { HTTP_CODE } from '../consts';
+import { HttpCode } from '../consts';
 import { clearErrorAction } from '../store/actions/api-actions';
 import { setError } from '../store/film-process/film-process';
 import { ErrorType } from '../types';
@@ -25,15 +25,15 @@ export const errorHandle = (error: ErrorType, dispatch: AppDispatch): void => {
 
   if (response) {
     switch (response.status) {
-      case HTTP_CODE.BAD_REQUEST:
+      case HttpCode.BAD_REQUEST:
         if(response.config.url === APIRoute.Login) {
           handleUserError(response.data.error);
         } else {
           handleError(response.data.error);
         }
         break;
-      case HTTP_CODE.UNAUTHORIZED:
-      case HTTP_CODE.NOT_FOUND:
+      case HttpCode.UNAUTHORIZED:
+      case HttpCode.NOT_FOUND:
       default:
         handleError(response.data.error);
         break;

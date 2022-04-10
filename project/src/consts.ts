@@ -28,14 +28,14 @@ export enum FavoriteFetchType {
 }
 
 
-export enum HTTP_CODE {
+export enum HttpCode {
   OK = 200,
   BAD_REQUEST = 400,
   UNAUTHORIZED = 401,
   NOT_FOUND = 404,
 }
 
-export enum TYPE_RATING_TEXT {
+export enum TypeRatingText {
   Bad = 'Bad',
   Normal = 'Normal',
   Good = 'Good',
@@ -43,7 +43,7 @@ export enum TYPE_RATING_TEXT {
   Awesome = 'Awesome'
 }
 
-export enum TYPE_RATING_VALUE {
+export enum TypeRatingValue {
   Bad = 3,
   Normal = 5,
   Good = 8,
