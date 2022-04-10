@@ -28,7 +28,7 @@ function MoreLikeThis({filmId}: MoreLikeThisProps): JSX.Element {
   return (
     <section className="catalog catalog--like-this">
       <h2 className="catalog__title">More like this</h2>
-      <ListFilmsCard films={similarFilms}/>
+      <ListFilmsCard films={similarFilms} showGenreList={false} isSimilarList/>
     </section>
   );
 }

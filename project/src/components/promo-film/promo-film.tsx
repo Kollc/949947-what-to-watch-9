@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { AuthorizationStatus, FavoriteFetchType } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { addFavoriteAction } from '../../store/actions/api-actions';
+import { getFavoriteList } from '../../store/film-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { FilmType } from '../../types';
 import { checkFilmInFavoriteList } from '../../utils';
 
@@ -12,8 +14,8 @@ type PromoFilmProps = {
 
 function PromoFilm({promoFilm}: PromoFilmProps): JSX.Element {
   const {name, genre, released, posterImage} = promoFilm;
-  const {favoriteList} = useAppSelector((state) => state.DATA);
-  const {requireAuthorization} = useAppSelector((state) => state.USER);
+  const favoriteList = useAppSelector(getFavoriteList);
+  const requireAuthorization = useAppSelector(getAuthorizationStatus);
   const [typeFavoriteAction, setTypeFavoriteAction] = useState<FavoriteFetchType>(FavoriteFetchType.Add);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

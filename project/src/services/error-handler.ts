@@ -1,18 +1,24 @@
+import { APIRoute } from './../consts';
+import { AppDispatch } from './../types/state';
 import request from 'axios';
 import { HTTP_CODE } from '../consts';
 import { clearErrorAction } from '../store/actions/api-actions';
 import { setError } from '../store/film-process/film-process';
-import { store } from '../store/store';
 import { ErrorType } from '../types';
+import { setUserError } from '../store/user-process/user-process';
 
-export const errorHandle = (error: ErrorType): void => {
+export const errorHandle = (error: ErrorType, dispatch: AppDispatch): void => {
   if (!request.isAxiosError(error)) {
     throw error;
   }
 
   const handleError = (message: string) => {
-    store.dispatch(setError(message));
-    store.dispatch(clearErrorAction());
+    dispatch(setError(message));
+    dispatch(clearErrorAction());
+  };
+
+  const handleUserError = (message: string) => {
+    dispatch(setUserError(message));
   };
 
   const {response} = error;
@@ -20,8 +26,15 @@ export const errorHandle = (error: ErrorType): void => {
   if (response) {
     switch (response.status) {
       case HTTP_CODE.BAD_REQUEST:
+        if(response.config.url === APIRoute.Login) {
+          handleUserError(response.data.error);
+        } else {
+          handleError(response.data.error);
+        }
+        break;
       case HTTP_CODE.UNAUTHORIZED:
       case HTTP_CODE.NOT_FOUND:
+      default:
         handleError(response.data.error);
         break;
     }

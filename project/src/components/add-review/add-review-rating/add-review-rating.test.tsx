@@ -4,14 +4,14 @@ import userEvent from '@testing-library/user-event';
 
 describe('AddReviewRating', () => {
   it('should render "AddReviewRating" is success', () => {
-    const changeRatingHandler = jest.fn();
+    const handleRatingChange = jest.fn();
 
-    render(<AddReviewRating rating={6} changeRatingHandler={changeRatingHandler} disabledForm={false}/>);
+    render(<AddReviewRating rating={6} handleRatingChange={handleRatingChange} disabledForm={false}/>);
 
     expect(screen.getByTestId('add-review-rating')).toBeInTheDocument();
     const input = screen.getByTestId('input-rating-7');
     userEvent.click(input);
 
-    expect(changeRatingHandler).toBeCalled();
+    expect(handleRatingChange).toBeCalled();
   });
 });

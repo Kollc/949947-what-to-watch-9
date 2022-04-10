@@ -8,7 +8,7 @@ const formatFilmRunTime = (time: number) => {
   return `${hours}h ${minutes}m`;
 };
 
-const getAllGenres = (films: FilmType[]) => ([...new Set([DEFAULT_FILTER_GENRE_VALUE, ...films.map((film) => film.genre)])]);
+const getAllGenres = (films: FilmType[]) => ([...new Set([DEFAULT_FILTER_GENRE_VALUE, ...films.map((film) => film.genre)])].slice(0, 9));
 
 const getFilmsByGenre = (films: FilmType[], genre: string) => {
   if(genre === DEFAULT_FILTER_GENRE_VALUE) {

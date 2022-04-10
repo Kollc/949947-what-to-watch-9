@@ -8,7 +8,7 @@ import CatalogGenresList from './catalog-genres-list';
 
 describe('CatalogGenreList', () => {
   const catalogGenreListProps = {
-    allGenre: genreList,
+    allGenres: genreList,
     setCountFilmShow: jest.fn(),
     setGenre: jest.fn(),
     currentGenre: 'Adventure',

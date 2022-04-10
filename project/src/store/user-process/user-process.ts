@@ -5,6 +5,7 @@ import {UserProcessType} from '../../types/state';
 const initialState: UserProcessType = {
   requireAuthorization: AuthorizationStatus.Unknown,
   user: null,
+  error: '',
 };
 
 export const userProcess = createSlice({
@@ -20,7 +21,10 @@ export const userProcess = createSlice({
     resetUser: (state) => {
       state.user = null;
     },
+    setUserError: (state, action) => {
+      state.error = action.payload;
+    },
   },
 });
 
-export const {setUser, requireAuthorization, resetUser} = userProcess.actions;
+export const {setUser, requireAuthorization, resetUser, setUserError} = userProcess.actions;

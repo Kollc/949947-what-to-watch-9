@@ -38,7 +38,7 @@ export const fetchFilmsAction = createAsyncThunk<void, undefined, {
       const {data} = await api.get<FilmType[]>(APIRoute.Films);
       dispatch(loadFilms(data));
     } catch (error) {
-      errorHandle(error);
+      errorHandle(error, dispatch);
     }
   },
 );
@@ -55,7 +55,7 @@ export const fetchPromoFilmAction = createAsyncThunk<void, undefined, {
       const {data} = await api.get<FilmType>(APIRoute.PromoFilm);
       dispatch(loadPromoFilm(data));
     } catch (error) {
-      errorHandle(error);
+      errorHandle(error, dispatch);
     }
   },
 );
@@ -91,7 +91,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
       dispatch(redirectToRoute(AppRoute.Main));
       dispatch(setUser(data));
     } catch (error) {
-      errorHandle(error);
+      errorHandle(error, dispatch);
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     }
   },
@@ -110,7 +110,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
       dispatch(resetUser());
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     } catch (error) {
-      errorHandle(error);
+      errorHandle(error, dispatch);
     }
   },
 );
@@ -126,7 +126,7 @@ export const addFavoriteAction = createAsyncThunk<void, FavoriteFetch, {
       await api.post<FilmType>(`${APIRoute.Favorite}/${filmId}/${type}`);
       dispatch(fetchFavoriteListAction());
     } catch (error) {
-      errorHandle(error);
+      errorHandle(error, dispatch);
     }
   },
 );

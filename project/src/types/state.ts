@@ -6,6 +6,7 @@ import { UserData } from './user.js';
 export type UserProcessType = {
   requireAuthorization: AuthorizationStatus,
   user: UserData | null,
+  error: string,
 };
 
 export type FilmProcessType = {

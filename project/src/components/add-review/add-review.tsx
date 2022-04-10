@@ -3,6 +3,7 @@ import { Navigate, useParams } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../consts';
 import { useAppSelector } from '../../hooks';
 import { getFilmById } from '../../services/api';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { FilmType } from '../../types';
 import Header from '../header/header';
 import LoadingScreen from '../loading-screen/loading-screen';
@@ -13,7 +14,7 @@ function AddReviewPage(): JSX.Element  {
   const {id} = useParams<{id: string}>();
   const [film, setFilm] = useState<FilmType | null>(null);
   const [loading, setLoading]= useState(true);
-  const {requireAuthorization} = useAppSelector((state) => state.USER);
+  const requireAuthorization = useAppSelector(getAuthorizationStatus);
 
   useEffect(() => {
     getFilmById(Number(id)).then((data) => {
@@ -32,7 +33,7 @@ function AddReviewPage(): JSX.Element  {
     );
   }
 
-  if (film === null) {
+  if (film === null || film === undefined) {
     return <Navigate to="/404"/>;
   }
 

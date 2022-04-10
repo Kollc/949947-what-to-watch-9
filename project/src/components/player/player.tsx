@@ -11,7 +11,7 @@ function Player(): JSX.Element {
   const navigate = useNavigate();
 
   const [playing, setPlaying] = useState(false);
-  const [videoFullTime, setVideoTime] = useState(0);
+  const [videoFullTime, setvideoFullTime] = useState(0);
   const [videoCurrentTime, setVideoCurrentTime] = useState(0);
   const [videoProgress, setVideoProgress] = useState(0);
   const player = useRef() as MutableRefObject<HTMLVideoElement>;
@@ -23,12 +23,12 @@ function Player(): JSX.Element {
     });
   }, [id]);
 
-  const clickPauseHandler = () => {
+  const handlePauseClick = () => {
     player.current.pause();
     setPlaying(false);
   };
 
-  const clickPlayHandler = () => {
+  const handlePlayClick = () => {
     player.current.play();
     setPlaying(true);
   };
@@ -42,7 +42,7 @@ function Player(): JSX.Element {
 
   useEffect(() => {
     if(player.current) {
-      setVideoTime(player.current.duration);
+      setvideoFullTime(player.current.duration);
     }
   }, [playing]);
 
@@ -51,7 +51,7 @@ function Player(): JSX.Element {
     return `${Math.floor(timeLeft / 60)  }:${  (`0${  Math.floor(timeLeft % 60)}`).slice(-2)}`;
   };
 
-  const clickFullScreenHandler = () => {
+  const handleFullScreenClick = () => {
     player.current.requestFullscreen();
   };
 
@@ -66,13 +66,13 @@ function Player(): JSX.Element {
     );
   }
 
-  if (film === null) {
+  if (film === null || film === undefined) {
     return <Navigate to="/404"/>;
   }
 
   return (
     <div className="player" data-testid='player'>
-      <video data-testid='video' ref={player} src={film?.videoLink} id="video" className="player__video" poster={film?.posterImage}></video>
+      <video data-testid='video' autoPlay ref={player} src={film?.videoLink} id="video" className="player__video" poster={film?.posterImage} onPlay={() => setPlaying(true)}></video>
 
       <button type="button" className="player__exit" onClick={exitPlayer}>Exit</button>
 
@@ -82,19 +82,19 @@ function Player(): JSX.Element {
             <progress className="player__progress" value={videoProgress} max="100"></progress>
             <div className="player__toggler" style={{left: `${videoProgress}%`}}>Toggler</div>
           </div>
-          <div className="player__time-value"> {videoFullTime && videoCurrentTime ? getVideoTimeLeft(videoFullTime, videoCurrentTime) : '0:00:00'}</div>
+          <div className="player__time-value"> - {videoFullTime && videoCurrentTime ? getVideoTimeLeft(videoFullTime, videoCurrentTime) : '0:00:00'}</div>
         </div>
 
         <div className="player__controls-row">
           {playing ? (
-            <button type="button" className="player__play" onClick={clickPauseHandler}>
+            <button type="button" className="player__play" onClick={handlePauseClick}>
               <svg viewBox="0 0 14 21" width="14" height="21">
                 <use xlinkHref="#pause"></use>
               </svg>
               <span>Pause</span>
             </button>
           ) : (
-            <button type="button" className="player__play" onClick={clickPlayHandler} data-testid='play'>
+            <button type="button" className="player__play" onClick={handlePlayClick} data-testid='play'>
               <svg viewBox="0 0 19 19" width="19" height="19">
                 <use xlinkHref="#play-s"></use>
               </svg>
@@ -102,9 +102,9 @@ function Player(): JSX.Element {
             </button>
           )}
 
-          <div className="player__name">Transpotting</div>
+          <div className="player__name">{film.name}</div>
 
-          <button type="button" className="player__full-screen" onClick={clickFullScreenHandler}>
+          <button type="button" className="player__full-screen" onClick={handleFullScreenClick}>
             <svg viewBox="0 0 27 27" width="27" height="27">
               <use xlinkHref="#full-screen"></use>
             </svg>

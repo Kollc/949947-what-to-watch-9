@@ -4,6 +4,8 @@ import { AuthorizationStatus, FavoriteFetchType } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getFilmById } from '../../services/api';
 import { addFavoriteAction } from '../../store/actions/api-actions';
+import { getFavoriteList } from '../../store/film-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { FilmType } from '../../types';
 import { checkFilmInFavoriteList } from '../../utils';
 import Footer from '../footer/footer';
@@ -17,8 +19,8 @@ function MoviePage(): JSX.Element {
   const {id} = useParams();
   const [film, setFilm] = useState<FilmType | null>(null);
   const [loading, setLoading]= useState(true);
-  const {requireAuthorization} = useAppSelector((state) => state.USER);
-  const {favoriteList} = useAppSelector((state) => state.DATA);
+  const requireAuthorization = useAppSelector(getAuthorizationStatus);
+  const favoriteList = useAppSelector(getFavoriteList);
   const [typeFavoriteAction, setTypeFavoriteAction] = useState<FavoriteFetchType>(FavoriteFetchType.Add);
   const dispatch = useAppDispatch();
 
@@ -45,7 +47,7 @@ function MoviePage(): JSX.Element {
     );
   }
 
-  if (film === null) {
+  if (film === null || film === undefined) {
     return <Navigate to="/404"/>;
   }
 

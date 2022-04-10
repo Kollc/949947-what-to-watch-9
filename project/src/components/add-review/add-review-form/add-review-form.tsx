@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HTTP_CODE } from '../../../consts';
+import { HTTP_CODE, MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH } from '../../../consts';
 import { addNewComment } from '../../../services/api';
 import AddReviewRating from '../add-review-rating/add-review-rating';
 
@@ -21,17 +21,17 @@ function AddReviewForm({filmId}: AddReviewFormProps): JSX.Element {
     }
   };
 
-  const changeRatingHandler = (evt: ChangeEvent<HTMLInputElement>) => {
+  const handleRatingChange = (evt: ChangeEvent<HTMLInputElement>) => {
     setRating(Number(evt.target.value));
     checkValidationFormData();
   };
 
-  const changeCommentHandler = (evt: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleCommentChange = (evt: ChangeEvent<HTMLTextAreaElement>) => {
     setComment(evt.target.value);
     checkValidationFormData();
   };
 
-  const submitFormCommentHandler = (evt: FormEvent) => {
+  const handleFormCommentSubmit = (evt: FormEvent) => {
     evt.preventDefault();
     setDisabledForm(true);
 
@@ -47,24 +47,24 @@ function AddReviewForm({filmId}: AddReviewFormProps): JSX.Element {
   };
 
   return (
-    <form action="#" className="add-review__form" onSubmit={submitFormCommentHandler} data-testid='add-review__form'>
-      <AddReviewRating changeRatingHandler={changeRatingHandler} rating={rating} disabledForm={disabledForm}/>
+    <form action="#" className="add-review__form" onSubmit={handleFormCommentSubmit} data-testid='add-review__form'>
+      <AddReviewRating handleRatingChange={handleRatingChange} rating={rating} disabledForm={disabledForm}/>
       <div className="add-review__text">
         <textarea
           className="add-review__textarea"
           name="review-text"
           id="review-text"
           placeholder="Review text"
-          onChange={changeCommentHandler}
+          onChange={handleCommentChange}
           value={comment}
           required
-          minLength={50}
-          maxLength={400}
-          disabled={disabledForm && true}
+          minLength={MIN_COMMENT_LENGTH}
+          maxLength={MAX_COMMENT_LENGTH}
+          disabled={disabledForm}
         >
         </textarea>
         <div className="add-review__submit">
-          <button className="add-review__btn" type="submit" disabled={(disabledSubmitButton || disabledForm)  && true} >Post</button>
+          <button className="add-review__btn" type="submit" disabled={(disabledSubmitButton || disabledForm)} >Post</button>
         </div>
       </div>
     </form>

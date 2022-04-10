@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FilmType } from '../../types';
 import PlayerPreview from '../player-preview/player-preview';
 
@@ -9,6 +9,7 @@ type CardITemProps = {
 
 function CardItem({film}: CardITemProps): JSX.Element {
   const [isActive, setIsActive] = useState(false);
+  const navigate = useNavigate();
   let activeTimer: NodeJS.Timeout;
 
   const onMouseOverHanlder = () => {
@@ -25,7 +26,7 @@ function CardItem({film}: CardITemProps): JSX.Element {
 
   return (
     <article className='small-film-card catalog__films-card' onMouseEnter={onMouseOverHanlder} onMouseLeave={onMouseLeaveHanlder} data-testid='film-card'>
-      <div className='small-film-card__image'>
+      <div className='small-film-card__image' onClick={() => navigate(`/films/${film.id}`)}>
         <PlayerPreview src={film.videoLink} poster={film.posterImage} isActive={isActive} />
       </div>
       <h3 className='small-film-card__title'>

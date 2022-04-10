@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { COUNT_FILM_LOADED, DEFAULT_FILTER_GENRE_VALUE } from '../../consts';
+import { COUNT_FILM_LOADED, COUNT_SHOW_SIMILAR_FILMS, DEFAULT_FILTER_GENRE_VALUE } from '../../consts';
 import { FilmType } from '../../types';
 import { getAllGenres, getFilmsByGenre } from '../../utils';
 import CardItem from '../card-item/card-item';
@@ -8,17 +8,23 @@ import ShowMore from '../show-more/show-more';
 
 type ListFilmsCardProps = {
   films: FilmType[],
+  showGenreList?: boolean,
+  isSimilarList?: boolean,
 }
 
-function ListFilmsCard({films}: ListFilmsCardProps): JSX.Element {
-  const allGenre = getAllGenres(films);
+function ListFilmsCard({films, showGenreList = true, isSimilarList = false}: ListFilmsCardProps): JSX.Element {
+  const allGenres = getAllGenres(films);
   const [genre, setGenre] = useState(DEFAULT_FILTER_GENRE_VALUE);
   const [countFilmShow, setCountFilmShow] = useState(COUNT_FILM_LOADED);
-  const currentFilms = getFilmsByGenre(films, genre).slice(0, countFilmShow);
+  let currentFilms = getFilmsByGenre(films, genre).slice(0, countFilmShow);
+
+  if(isSimilarList) {
+    currentFilms = currentFilms.slice(0, COUNT_SHOW_SIMILAR_FILMS);
+  }
 
   return(
     <>
-      <CatalogGenresList currentGenre={genre} setGenre={setGenre} allGenre={allGenre} setCountFilmShow={setCountFilmShow}/>
+      {showGenreList && <CatalogGenresList currentGenre={genre} setGenre={setGenre} allGenres={allGenres} setCountFilmShow={setCountFilmShow}/>}
       <div className="catalog__films-list" data-testid='catalog__films-list'>
         {useMemo(() => currentFilms.map((film) => (<CardItem key={film.id} film={film}/>)), [currentFilms])}
       </div>

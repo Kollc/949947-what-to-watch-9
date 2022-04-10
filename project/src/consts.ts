@@ -59,3 +59,7 @@ export enum NameSpace {
 export const COUNT_FILM_LOADED = 8;
 export const DEFAULT_FILTER_GENRE_VALUE = 'All genres';
 export const TIMEOUT_SHOW_ERROR = 2000;
+export const MIN_COMMENT_LENGTH = 50;
+export const MAX_COMMENT_LENGTH = 400;
+
+export const COUNT_SHOW_SIMILAR_FILMS = 4;

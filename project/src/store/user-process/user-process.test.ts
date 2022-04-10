@@ -1,6 +1,6 @@
 import { AuthorizationStatus } from '../../consts';
 import { testUser } from '../../test-mock/user';
-import { requireAuthorization, resetUser, setUser, userProcess } from './user-process';
+import { requireAuthorization, resetUser, setUser, setUserError, userProcess } from './user-process';
 
 
 describe('Reducer: userProcess', () => {
@@ -9,6 +9,7 @@ describe('Reducer: userProcess', () => {
       .toEqual({
         requireAuthorization: AuthorizationStatus.Unknown,
         user: null,
+        error: '',
       });
   });
 
@@ -16,12 +17,14 @@ describe('Reducer: userProcess', () => {
     const state = {
       requireAuthorization: AuthorizationStatus.Unknown,
       user: null,
+      error: '',
     };
 
     expect(userProcess.reducer(state, requireAuthorization(AuthorizationStatus.Auth)))
       .toEqual({
         requireAuthorization: AuthorizationStatus.Auth,
         user: null,
+        error: '',
       });
   });
 
@@ -29,12 +32,14 @@ describe('Reducer: userProcess', () => {
     const state = {
       requireAuthorization: AuthorizationStatus.Unknown,
       user: null,
+      error: '',
     };
 
     expect(userProcess.reducer(state, setUser(testUser)))
       .toEqual({
         requireAuthorization: AuthorizationStatus.Unknown,
         user: testUser,
+        error: '',
       });
   });
 
@@ -42,12 +47,29 @@ describe('Reducer: userProcess', () => {
     const state = {
       requireAuthorization: AuthorizationStatus.Unknown,
       user: null,
+      error: '',
     };
 
     expect(userProcess.reducer(state, resetUser()))
       .toEqual({
         requireAuthorization: AuthorizationStatus.Unknown,
         user: null,
+        error: '',
+      });
+  });
+
+  it('SetUserError  is success', () => {
+    const state = {
+      requireAuthorization: AuthorizationStatus.NoAuth,
+      user: null,
+      error: '',
+    };
+
+    expect(userProcess.reducer(state, setUserError('Error!')))
+      .toEqual({
+        requireAuthorization: AuthorizationStatus.NoAuth,
+        user: null,
+        error: 'Error!',
       });
   });
 });

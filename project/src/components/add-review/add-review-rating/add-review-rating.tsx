@@ -2,11 +2,11 @@ import { ChangeEvent, Fragment } from 'react';
 
 type AddReviewRatingProps = {
   rating: number;
-  changeRatingHandler: (evt: ChangeEvent<HTMLInputElement>) => void;
+  handleRatingChange: (evt: ChangeEvent<HTMLInputElement>) => void;
   disabledForm: boolean;
 }
 
-function AddReviewRating({rating, changeRatingHandler, disabledForm}: AddReviewRatingProps): JSX.Element {
+function AddReviewRating({rating, handleRatingChange, disabledForm}: AddReviewRatingProps): JSX.Element {
   const ratingStarsCount = [];
 
   for (let value = 1; value <= 10; value++) {
@@ -20,7 +20,7 @@ function AddReviewRating({rating, changeRatingHandler, disabledForm}: AddReviewR
           <Fragment key={value}>
             <input
               data-testid={`input-rating-${value}`}
-              onChange={changeRatingHandler}
+              onChange={handleRatingChange}
               className="rating__input"
               id={`star-${value}`}
               type="radio"

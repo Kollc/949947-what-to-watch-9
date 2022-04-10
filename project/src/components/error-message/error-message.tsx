@@ -1,7 +1,8 @@
-import {useAppSelector} from '../../hooks';
+import { useAppSelector } from '../../hooks';
+import { getError } from '../../store/film-process/selectors';
 
 function ErrorMessage(): JSX.Element | null {
-  const {error} = useAppSelector((state) => state.FILM);
+  const error = useAppSelector(getError);
 
   if (error) {
     return (

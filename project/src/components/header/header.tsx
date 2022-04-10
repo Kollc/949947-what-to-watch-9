@@ -2,20 +2,24 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute, AuthorizationStatus } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../store/actions/api-actions';
+import { getAuthorizationStatus, getUser } from '../../store/user-process/selectors';
 import Logo from '../logo/logo';
 
 type HeaderProps = {
   children?: JSX.Element | null;
+  isUserPage?: boolean,
 }
 
-function Header({children}: HeaderProps): JSX.Element {
+function Header({children, isUserPage = false}: HeaderProps): JSX.Element {
   const navigate = useNavigate();
-  const { requireAuthorization, user } = useAppSelector((state) => state.USER);
+  const requireAuthorization = useAppSelector(getAuthorizationStatus);
+  const user = useAppSelector(getUser);
   const dispatch = useAppDispatch();
 
   return (
-    <header className="page-header film-card__head">
+    <header className={`page-header ${isUserPage ? 'user-page__head' : 'film-card__head'}`}>
       <Logo/>
+      {isUserPage && <h1 className="page-title user-page__title">My list</h1>}
       {children}
       {
         requireAuthorization === AuthorizationStatus.Auth

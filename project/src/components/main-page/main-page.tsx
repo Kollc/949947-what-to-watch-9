@@ -1,4 +1,5 @@
 import { useAppSelector } from '../../hooks';
+import { getFilms, getIsLoadedFilms, getPromoFilm } from '../../store/film-data/selectors';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import ListFilmsCard from '../list-films-card/list-films-card';
@@ -6,8 +7,9 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import PromoFilm from '../promo-film/promo-film';
 
 function MainPage(): JSX.Element {
-  const {isDataLoadedFilms, promoFilm} = useAppSelector((state) => state.DATA);
-  const {films} = useAppSelector((state) => state.DATA);
+  const promoFilm = useAppSelector(getPromoFilm);
+  const isDataLoadedFilms = useAppSelector(getIsLoadedFilms);
+  const films = useAppSelector(getFilms);
 
   if (!isDataLoadedFilms || promoFilm === null) {
     return (

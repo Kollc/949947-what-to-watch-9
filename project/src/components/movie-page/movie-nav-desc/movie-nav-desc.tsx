@@ -17,17 +17,17 @@ type MovieNavDescProps = {
 function MovieNavDesc({film}: MovieNavDescProps): JSX.Element {
   const [currentLink, setCurrentLink] = useState(MoviePageTabLinks.overview);
 
-  const clickOverviewTabLinkHandler = (evt: MouseEvent) => {
+  const handleOverviewTabLinkClick = (evt: MouseEvent) => {
     evt.preventDefault();
     setCurrentLink(MoviePageTabLinks.overview);
   };
 
-  const clickDetailsTabLinkHandler = (evt: MouseEvent) => {
+  const handleDetailsTabLinkClick = (evt: MouseEvent) => {
     evt.preventDefault();
     setCurrentLink(MoviePageTabLinks.details);
   };
 
-  const clickReviewsTabLinkHandler = (evt: MouseEvent) => {
+  const handleReviewsTabLinkClick = (evt: MouseEvent) => {
     evt.preventDefault();
     setCurrentLink(MoviePageTabLinks.reviews);
   };
@@ -45,17 +45,17 @@ function MovieNavDesc({film}: MovieNavDescProps): JSX.Element {
       <nav className="film-nav film-card__nav">
         <ul className="film-nav__list">
           <li className={`film-nav__item ${setClassActive(MoviePageTabLinks.overview)}`}>
-            <a href="#" className="film-nav__link" onClick={clickOverviewTabLinkHandler}>
+            <a href="#" className="film-nav__link" onClick={handleOverviewTabLinkClick}>
               {MoviePageTabLinks.overview}
             </a>
           </li>
           <li className={`film-nav__item ${setClassActive(MoviePageTabLinks.details)}`}>
-            <a href="#" className="film-nav__link" onClick={clickDetailsTabLinkHandler}>
+            <a href="#" className="film-nav__link" onClick={handleDetailsTabLinkClick}>
               {MoviePageTabLinks.details}
             </a>
           </li>
           <li className={`film-nav__item ${setClassActive(MoviePageTabLinks.reviews)}`}>
-            <a href="#" className="film-nav__link" onClick={clickReviewsTabLinkHandler}>
+            <a href="#" className="film-nav__link" onClick={handleReviewsTabLinkClick}>
               {MoviePageTabLinks.reviews}
             </a>
           </li>
