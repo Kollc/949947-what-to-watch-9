@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
+import { useAppDispatch } from '../../../../hooks';
 import { getFilmComments } from '../../../../services/api';
+import { setError } from '../../../../store/film-process/film-process';
+import { ErrorType } from '../../../../types';
 import { CommentType } from '../../../../types/comment';
 import { getFromatedDate } from '../../../../utils';
+import { getErrorMessage } from '../../../../utils/error';
 import LoadingScreen from '../../../loading-screen/loading-screen';
 
 type MovieReviewsTabProps = {
@@ -11,15 +15,23 @@ type MovieReviewsTabProps = {
 function MovieReviewsTab({filmId}: MovieReviewsTabProps): JSX.Element {
   const [comments, setComments] = useState<CommentType[]>([]);
   const [loading, setLoading]= useState(true);
+  const [errorFetch, setErrorFetch] = useState<ErrorType>(null);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    getFilmComments(filmId).then((data) => {
+    getFilmComments(filmId, setErrorFetch).then((data) => {
       setComments(data);
       setLoading(false);
     });
   }, [filmId]);
 
-  if (loading) {
+  useEffect(() => {
+    if(errorFetch) {
+      dispatch(setError(getErrorMessage(errorFetch)));
+    }
+  }, [errorFetch]);
+
+  if (loading || errorFetch) {
     return (
       <LoadingScreen/>
     );

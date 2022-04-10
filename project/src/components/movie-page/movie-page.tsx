@@ -5,9 +5,11 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getFilmById } from '../../services/api';
 import { addFavoriteAction } from '../../store/actions/api-actions';
 import { getFavoriteList } from '../../store/film-data/selectors';
+import { setError } from '../../store/film-process/film-process';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
-import { FilmType } from '../../types';
+import { ErrorType, FilmType } from '../../types';
 import { checkFilmInFavoriteList } from '../../utils';
+import { getErrorMessage } from '../../utils/error';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import LoadingScreen from '../loading-screen/loading-screen';
@@ -23,6 +25,7 @@ function MoviePage(): JSX.Element {
   const favoriteList = useAppSelector(getFavoriteList);
   const [typeFavoriteAction, setTypeFavoriteAction] = useState<FavoriteFetchType>(FavoriteFetchType.Add);
   const dispatch = useAppDispatch();
+  const [errorFetch, setErrorFetch] = useState<ErrorType>(null);
 
   useEffect(() => {
     if(film) {
@@ -35,13 +38,19 @@ function MoviePage(): JSX.Element {
   }, [favoriteList, film]);
 
   useEffect(() => {
-    getFilmById(Number(id)).then((data) => {
+    getFilmById(Number(id), setErrorFetch).then((data) => {
       setFilm(data);
       setLoading(false);
     });
   }, [id]);
 
-  if (loading) {
+  useEffect(() => {
+    if(errorFetch) {
+      dispatch(setError(getErrorMessage(errorFetch)));
+    }
+  }, [errorFetch]);
+
+  if (loading || errorFetch) {
     return (
       <LoadingScreen/>
     );

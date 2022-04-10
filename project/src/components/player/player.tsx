@@ -1,7 +1,10 @@
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks';
 import { getFilmById } from '../../services/api';
-import { FilmType } from '../../types';
+import { setError } from '../../store/film-process/film-process';
+import { ErrorType, FilmType } from '../../types';
+import { getErrorMessage } from '../../utils/error';
 import LoadingScreen from '../loading-screen/loading-screen';
 
 function Player(): JSX.Element {
@@ -15,13 +18,21 @@ function Player(): JSX.Element {
   const [videoCurrentTime, setVideoCurrentTime] = useState(0);
   const [videoProgress, setVideoProgress] = useState(0);
   const player = useRef() as MutableRefObject<HTMLVideoElement>;
+  const [errorFetch, setErrorFetch] = useState<ErrorType>(null);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    getFilmById(Number(id)).then((data) => {
+    getFilmById(Number(id), setErrorFetch).then((data) => {
       setFilm(data);
       setLoading(false);
     });
   }, [id]);
+
+  useEffect(() => {
+    if(errorFetch) {
+      dispatch(setError(getErrorMessage(errorFetch)));
+    }
+  }, [errorFetch]);
 
   const handlePauseClick = () => {
     player.current.pause();
@@ -60,7 +71,7 @@ function Player(): JSX.Element {
   };
 
 
-  if (loading) {
+  if (loading || errorFetch) {
     return (
       <LoadingScreen/>
     );

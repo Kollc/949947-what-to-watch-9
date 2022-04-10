@@ -1,7 +1,12 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HTTP_CODE, MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH } from '../../../consts';
+import { useAppDispatch } from '../../../hooks';
 import { addNewComment } from '../../../services/api';
+import { setError } from '../../../store/film-process/film-process';
+import { ErrorType } from '../../../types';
+import { getErrorMessage } from '../../../utils/error';
+import LoadingScreen from '../../loading-screen/loading-screen';
 import AddReviewRating from '../add-review-rating/add-review-rating';
 
 type AddReviewFormProps = {
@@ -14,6 +19,8 @@ function AddReviewForm({filmId}: AddReviewFormProps): JSX.Element {
   const [disabledSubmitButton, setDisabledSubmitButton] = useState(true);
   const [disabledForm, setDisabledForm] = useState(false);
   const navigate = useNavigate();
+  const [errorFetch, setErrorFetch] = useState<ErrorType>(null);
+  const dispatch = useAppDispatch();
 
   const checkValidationFormData = () => {
     if(rating > 0 && comment.length >= 50) {
@@ -31,11 +38,17 @@ function AddReviewForm({filmId}: AddReviewFormProps): JSX.Element {
     checkValidationFormData();
   };
 
+  useEffect(() => {
+    if(errorFetch) {
+      dispatch(setError(getErrorMessage(errorFetch)));
+    }
+  }, [errorFetch]);
+
   const handleFormCommentSubmit = (evt: FormEvent) => {
     evt.preventDefault();
     setDisabledForm(true);
 
-    addNewComment(comment, rating, filmId).then((res) => {
+    addNewComment(comment, rating, filmId, setErrorFetch).then((res) => {
       if(res?.status === HTTP_CODE.OK) {
         navigate(-1);
       }
@@ -45,6 +58,12 @@ function AddReviewForm({filmId}: AddReviewFormProps): JSX.Element {
       setDisabledForm(false);
     });
   };
+
+  if (errorFetch) {
+    return (
+      <LoadingScreen/>
+    );
+  }
 
   return (
     <form action="#" className="add-review__form" onSubmit={handleFormCommentSubmit} data-testid='add-review__form'>

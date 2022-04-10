@@ -1,6 +1,6 @@
+import { ErrorType } from './../types/error';
 import axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
 import { APIRoute } from '../consts';
-// import { errorHandle } from './error-handler';
 import { getToken } from './token';
 
 const BACKEND_URL = 'https://9.react.pages.academy/wtw';
@@ -27,43 +27,43 @@ export const createAPI = (): AxiosInstance => {
   return api;
 };
 
-export const getFilmById = async (filmId: number) => {
+export const getFilmById = async (filmId: number, setError: (error: ErrorType) => void) => {
   const api = createAPI();
   try {
     const {data} = await api.get(`${APIRoute.Films}/${filmId}`);
     return data;
   } catch (error) {
-    // errorHandle(error);
+    setError(error);
   }
 };
 
-export const getSimilarFilms = async (filmId: number) => {
+export const getSimilarFilms = async (filmId: number, setError: (error: ErrorType) => void) => {
   const api = createAPI();
   try {
     const {data} = await api.get(`${APIRoute.Films}/${filmId}/similar`);
     return data;
   } catch (error) {
-    // errorHandle(error);
+    setError(error);
   }
 };
 
-export const getFilmComments = async (filmId: number) => {
+export const getFilmComments = async (filmId: number, setError: (error: ErrorType) => void) => {
   const api = createAPI();
   try {
     const {data} = await api.get(`${APIRoute.Comment}/${filmId}`);
     return data;
   } catch (error) {
-    // errorHandle(error);
+    setError(error);
   }
 };
 
-export const addNewComment = async (comment: string,  rating: number, filmId: number) => {
+export const addNewComment = async (comment: string,  rating: number, filmId: number, setError: (error: ErrorType) => void) => {
   const api = createAPI();
   try {
     const res = await api.post(`${APIRoute.Comment}/${filmId}`, {comment, rating});
     return res;
   } catch (error) {
-    // errorHandle(error);
+    setError(error);
   }
 };
 
