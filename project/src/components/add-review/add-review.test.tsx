@@ -2,7 +2,8 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { render, screen, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
-import { AuthorizationStatus } from '../../consts';
+import { Route, Routes } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus } from '../../consts';
 import { testFilms, testPromoFilm } from '../../test-mock/films';
 import HistoryRouter from '../history-route/history-route';
 import AddReviewPage from './add-review';
@@ -34,7 +35,9 @@ describe('AddReviewPage', () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
-          <AddReviewPage/>
+          <Routes>
+            <Route path={AppRoute.AddReview} element={<AddReviewPage/>}/>
+          </Routes>
         </HistoryRouter>
       </Provider>);
 
