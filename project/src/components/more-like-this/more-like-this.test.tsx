@@ -1,5 +1,5 @@
 import { configureMockStore } from '@jedmao/redux-mock-store';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import { AuthorizationStatus } from '../../consts';
@@ -28,7 +28,7 @@ const store = mockStore({
 const history = createMemoryHistory();
 
 describe('MoreLikeThis', () => {
-  it('MoreLikeThis redner is success', () => {
+  it('MoreLikeThis redner is success', async () => {
     render(
       <Provider store={store}>
         <HistoryRouter history={history}>
@@ -36,6 +36,10 @@ describe('MoreLikeThis', () => {
         </HistoryRouter>
       </Provider>);
 
-    expect(screen.getByText(/More like this/i)).toBeInTheDocument();
+    expect(screen.getByTestId('film-loader')).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(screen.getByText(/More like this/i)).toBeInTheDocument();
+    });
   });
 });

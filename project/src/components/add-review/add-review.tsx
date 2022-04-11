@@ -38,7 +38,7 @@ function AddReviewPage(): JSX.Element  {
     return <Navigate to={AppRoute.SignIn}/>;
   }
 
-  if (loading || errorFetch) {
+  if (loading || errorFetch  !== null) {
     return (
       <LoadingScreen/>
     );

@@ -70,8 +70,7 @@ function Player(): JSX.Element {
     navigate(-1);
   };
 
-
-  if (loading || errorFetch) {
+  if (loading || errorFetch !== null) {
     return (
       <LoadingScreen/>
     );
