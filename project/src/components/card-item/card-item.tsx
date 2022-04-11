@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { TIMEOUT_SHOW_PREVIEW_VIDEO } from '../../consts';
 import { FilmType } from '../../types';
 import PlayerPreview from '../player-preview/player-preview';
 
@@ -13,7 +14,7 @@ function CardItem({film}: CardITemProps): JSX.Element {
   let activeTimer: NodeJS.Timeout;
 
   const onMouseOverHanlder = () => {
-    activeTimer = setTimeout(() => setIsActive(true), 1000);
+    activeTimer = setTimeout(() => setIsActive(true), TIMEOUT_SHOW_PREVIEW_VIDEO);
   };
 
   const onMouseLeaveHanlder = () => {

@@ -1,14 +1,14 @@
-import { DEFAULT_FILTER_GENRE_VALUE, TypeRatingText, TypeRatingValue } from '../consts';
+import { DEFAULT_FILTER_GENRE_VALUE, MAX_COUNT_SHOW_GENGES, SECONDS_IN_MINUTE, TypeRatingText, TypeRatingValue } from '../consts';
 import { FilmType } from '../types';
 
 const formatFilmRunTime = (time: number) => {
-  const hours = Math.floor(time / 60);
-  const minutes = time % 60;
+  const hours = Math.floor(time / SECONDS_IN_MINUTE);
+  const minutes = time % SECONDS_IN_MINUTE;
 
   return `${hours}h ${minutes}m`;
 };
 
-const getAllGenres = (films: FilmType[]) => ([...new Set([DEFAULT_FILTER_GENRE_VALUE, ...films.map((film) => film.genre)])].slice(0, 9));
+const getAllGenres = (films: FilmType[]) => ([...new Set([DEFAULT_FILTER_GENRE_VALUE, ...films.map((film) => film.genre)])].slice(0, MAX_COUNT_SHOW_GENGES));
 
 const getFilmsByGenre = (films: FilmType[], genre: string) => {
   if(genre === DEFAULT_FILTER_GENRE_VALUE) {

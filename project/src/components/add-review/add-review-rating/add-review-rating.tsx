@@ -1,4 +1,5 @@
 import { ChangeEvent, Fragment } from 'react';
+import { MAX_VALUE_RATING, MIN_VALUE_RATING } from '../../../consts';
 
 type AddReviewRatingProps = {
   rating: number;
@@ -9,7 +10,7 @@ type AddReviewRatingProps = {
 function AddReviewRating({rating, handleRatingChange, disabledForm}: AddReviewRatingProps): JSX.Element {
   const ratingStarsCount = [];
 
-  for (let value = 1; value <= 10; value++) {
+  for (let value = MIN_VALUE_RATING; value <= MAX_VALUE_RATING; value++) {
     ratingStarsCount.push(value);
   }
 

@@ -61,5 +61,10 @@ export const DEFAULT_FILTER_GENRE_VALUE = 'All genres';
 export const TIMEOUT_SHOW_ERROR = 2000;
 export const MIN_COMMENT_LENGTH = 50;
 export const MAX_COMMENT_LENGTH = 400;
-
+export const MAX_COUNT_SHOW_GENGES = 9;
+export const SECONDS_IN_MINUTE = 60;
+export const MAX_VALUE_RATING = 10;
+export const MIN_VALUE_RATING = 1;
 export const COUNT_SHOW_SIMILAR_FILMS = 4;
+export const TIMEOUT_SHOW_PREVIEW_VIDEO = 1000;
+export const PERCENTAGES = 100;

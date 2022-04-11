@@ -24,7 +24,7 @@ function AddReviewForm({filmId}: AddReviewFormProps): JSX.Element {
   const [errorStatus, setErrorStatus] = useState<number>(HttpCode.Ok);
 
   const checkValidationFormData = () => {
-    if(rating > 0 && comment.length >= 50) {
+    if(rating > 0 && comment.length >= MIN_COMMENT_LENGTH) {
       setDisabledSubmitButton(false);
     }
   };

@@ -1,6 +1,6 @@
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { HttpCode } from '../../consts';
+import { HttpCode, PERCENTAGES, SECONDS_IN_MINUTE } from '../../consts';
 import { useAppDispatch } from '../../hooks';
 import { getFilmById } from '../../services/api';
 import { setError } from '../../store/film-process/film-process';
@@ -50,7 +50,7 @@ function Player(): JSX.Element {
   if(player.current) {
     player.current.ontimeupdate = () => {
       setVideoCurrentTime(player.current?.currentTime);
-      setVideoProgress((player.current?.currentTime / videoFullTime) * 100);
+      setVideoProgress((player.current?.currentTime / videoFullTime) * PERCENTAGES);
     };
   }
 
@@ -62,7 +62,7 @@ function Player(): JSX.Element {
 
   const getVideoTimeLeft = (fullTime: number, currentTime: number) => {
     const timeLeft = fullTime - currentTime;
-    return `${Math.floor(timeLeft / 60)  }:${  (`0${  Math.floor(timeLeft % 60)}`).slice(-2)}`;
+    return `${Math.floor(timeLeft / SECONDS_IN_MINUTE)  }:${  (`0${  Math.floor(timeLeft % SECONDS_IN_MINUTE)}`).slice(-2)}`;
   };
 
   const handleFullScreenClick = () => {

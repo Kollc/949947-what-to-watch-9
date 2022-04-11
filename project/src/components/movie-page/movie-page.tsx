@@ -64,7 +64,7 @@ function MoviePage(): JSX.Element {
 
   return (
     <React.Fragment>
-      <section className="film-card film-card--full">
+      <section className="film-card film-card--full" data-testid='main-page-wrapper'>
         <div className="film-card__hero">
           <div className="film-card__bg">
             <img src={film.backgroundImage} alt={film.name} />
@@ -90,7 +90,7 @@ function MoviePage(): JSX.Element {
                   <span>Play</span>
                 </button>
                 {AuthorizationStatus.Auth === requireAuthorization && (
-                  <button className="btn btn--list film-card__button" type="button" onClick={() =>  dispatch(addFavoriteAction({filmId: film.id, type: typeFavoriteAction}))}>
+                  <button data-testid='btn-add-list' className="btn btn--list film-card__button" type="button" onClick={() =>  dispatch(addFavoriteAction({filmId: film.id, type: typeFavoriteAction}))}>
                     {
                       typeFavoriteAction
                         ?
