@@ -1,10 +1,11 @@
 import { MutableRefObject, useEffect, useRef, useState } from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { HttpCode } from '../../consts';
 import { useAppDispatch } from '../../hooks';
 import { getFilmById } from '../../services/api';
 import { setError } from '../../store/film-process/film-process';
 import { ErrorType, FilmType } from '../../types';
-import { getErrorMessage } from '../../utils/error';
+import { getErrorMessage, getErrorStatus } from '../../utils/error';
 import LoadingScreen from '../loading-screen/loading-screen';
 
 function Player(): JSX.Element {
@@ -19,6 +20,7 @@ function Player(): JSX.Element {
   const [videoProgress, setVideoProgress] = useState(0);
   const player = useRef() as MutableRefObject<HTMLVideoElement>;
   const [errorFetch, setErrorFetch] = useState<ErrorType>(null);
+  const [errorStatus, setErrorStatus] = useState<number>(HttpCode.Ok);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -31,6 +33,7 @@ function Player(): JSX.Element {
   useEffect(() => {
     if(errorFetch) {
       dispatch(setError(getErrorMessage(errorFetch)));
+      setErrorStatus(getErrorStatus(errorFetch));
     }
   }, [errorFetch]);
 
@@ -70,7 +73,7 @@ function Player(): JSX.Element {
     navigate(-1);
   };
 
-  if (loading || errorFetch !== null) {
+  if ((loading || errorFetch) && errorStatus !== HttpCode.NotFound) {
     return (
       <LoadingScreen/>
     );

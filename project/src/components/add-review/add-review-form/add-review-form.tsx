@@ -5,7 +5,7 @@ import { useAppDispatch } from '../../../hooks';
 import { addNewComment } from '../../../services/api';
 import { setError } from '../../../store/film-process/film-process';
 import { ErrorType } from '../../../types';
-import { getErrorMessage } from '../../../utils/error';
+import { getErrorMessage, getErrorStatus } from '../../../utils/error';
 import LoadingScreen from '../../loading-screen/loading-screen';
 import AddReviewRating from '../add-review-rating/add-review-rating';
 
@@ -21,6 +21,7 @@ function AddReviewForm({filmId}: AddReviewFormProps): JSX.Element {
   const navigate = useNavigate();
   const [errorFetch, setErrorFetch] = useState<ErrorType>(null);
   const dispatch = useAppDispatch();
+  const [errorStatus, setErrorStatus] = useState<number>(HttpCode.Ok);
 
   const checkValidationFormData = () => {
     if(rating > 0 && comment.length >= 50) {
@@ -41,6 +42,7 @@ function AddReviewForm({filmId}: AddReviewFormProps): JSX.Element {
   useEffect(() => {
     if(errorFetch) {
       dispatch(setError(getErrorMessage(errorFetch)));
+      setErrorStatus(getErrorStatus(errorFetch));
     }
   }, [errorFetch]);
 
@@ -59,7 +61,7 @@ function AddReviewForm({filmId}: AddReviewFormProps): JSX.Element {
     });
   };
 
-  if (errorFetch) {
+  if (errorFetch && errorStatus !== HttpCode.NotFound) {
     return (
       <LoadingScreen/>
     );

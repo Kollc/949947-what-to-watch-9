@@ -5,7 +5,8 @@ import { ErrorType, FilmType } from '../../types';
 import ListFilmsCard from '../list-films-card/list-films-card';
 import LoadingScreen from '../loading-screen/loading-screen';
 import {setError} from '../../store/film-process/film-process';
-import { getErrorMessage } from '../../utils/error';
+import { getErrorMessage, getErrorStatus } from '../../utils/error';
+import { HttpCode } from '../../consts';
 
 type MoreLikeThisProps = {
   filmId: number
@@ -16,6 +17,7 @@ function MoreLikeThis({filmId}: MoreLikeThisProps): JSX.Element {
   const [similarFilms, setSimilarFilms] = useState<FilmType[]>([]);
   const [loading, setLoading]= useState(true);
   const [errorFetch, setErrorFetch] = useState<ErrorType>(null);
+  const [errorStatus, setErrorStatus] = useState<number>(HttpCode.Ok);
 
   useEffect(() => {
     getSimilarFilms(filmId, setErrorFetch).then((data) => {
@@ -27,10 +29,11 @@ function MoreLikeThis({filmId}: MoreLikeThisProps): JSX.Element {
   useEffect(() => {
     if(errorFetch) {
       dispatch(setError(getErrorMessage(errorFetch)));
+      setErrorStatus(getErrorStatus(errorFetch));
     }
   }, [errorFetch]);
 
-  if (loading || errorFetch) {
+  if ((loading || errorFetch) && errorStatus !== HttpCode.NotFound) {
     return (
       <LoadingScreen/>
     );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
-import { AuthorizationStatus, FavoriteFetchType } from '../../consts';
+import { AuthorizationStatus, FavoriteFetchType, HttpCode } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getFilmById } from '../../services/api';
 import { addFavoriteAction } from '../../store/actions/api-actions';
@@ -9,7 +9,7 @@ import { setError } from '../../store/film-process/film-process';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { ErrorType, FilmType } from '../../types';
 import { checkFilmInFavoriteList } from '../../utils';
-import { getErrorMessage } from '../../utils/error';
+import { getErrorMessage, getErrorStatus } from '../../utils/error';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import LoadingScreen from '../loading-screen/loading-screen';
@@ -26,6 +26,7 @@ function MoviePage(): JSX.Element {
   const [typeFavoriteAction, setTypeFavoriteAction] = useState<FavoriteFetchType>(FavoriteFetchType.Add);
   const dispatch = useAppDispatch();
   const [errorFetch, setErrorFetch] = useState<ErrorType>(null);
+  const [errorStatus, setErrorStatus] = useState<number>(HttpCode.Ok);
 
   useEffect(() => {
     if(film) {
@@ -47,10 +48,11 @@ function MoviePage(): JSX.Element {
   useEffect(() => {
     if(errorFetch) {
       dispatch(setError(getErrorMessage(errorFetch)));
+      setErrorStatus(getErrorStatus(errorFetch));
     }
   }, [errorFetch]);
 
-  if (loading || errorFetch) {
+  if ((loading || errorFetch) && errorStatus !== HttpCode.NotFound) {
     return (
       <LoadingScreen/>
     );

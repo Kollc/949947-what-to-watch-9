@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
-import { AppRoute, AuthorizationStatus } from '../../consts';
+import { AppRoute, AuthorizationStatus, HttpCode } from '../../consts';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { getFilmById } from '../../services/api';
 import { setError } from '../../store/film-process/film-process';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import { ErrorType, FilmType } from '../../types';
-import { getErrorMessage } from '../../utils/error';
+import { getErrorMessage, getErrorStatus } from '../../utils/error';
 import Header from '../header/header';
 import LoadingScreen from '../loading-screen/loading-screen';
 import AddReviewBreadcrumbs from './add-review-breadcrumbs/add-review-breadcrumbs';
@@ -19,6 +19,7 @@ function AddReviewPage(): JSX.Element  {
   const [loading, setLoading]= useState(true);
   const requireAuthorization = useAppSelector(getAuthorizationStatus);
   const [errorFetch, setErrorFetch] = useState<ErrorType>(null);
+  const [errorStatus, setErrorStatus] = useState<number>(HttpCode.Ok);
 
   useEffect(() => {
     getFilmById(Number(id), setErrorFetch).then((data) => {
@@ -30,6 +31,7 @@ function AddReviewPage(): JSX.Element  {
   useEffect(() => {
     if(errorFetch) {
       dispatch(setError(getErrorMessage(errorFetch)));
+      setErrorStatus(getErrorStatus(errorFetch));
     }
   }, [errorFetch]);
 
@@ -38,7 +40,7 @@ function AddReviewPage(): JSX.Element  {
     return <Navigate to={AppRoute.SignIn}/>;
   }
 
-  if (loading || errorFetch  !== null) {
+  if ((loading || errorFetch) && errorStatus !== HttpCode.NotFound) {
     return (
       <LoadingScreen/>
     );

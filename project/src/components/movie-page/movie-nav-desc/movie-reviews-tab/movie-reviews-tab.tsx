@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
+import { HttpCode } from '../../../../consts';
 import { useAppDispatch } from '../../../../hooks';
 import { getFilmComments } from '../../../../services/api';
 import { setError } from '../../../../store/film-process/film-process';
 import { ErrorType } from '../../../../types';
 import { CommentType } from '../../../../types/comment';
 import { getFromatedDate } from '../../../../utils';
-import { getErrorMessage } from '../../../../utils/error';
+import { getErrorMessage, getErrorStatus } from '../../../../utils/error';
 import LoadingScreen from '../../../loading-screen/loading-screen';
 
 type MovieReviewsTabProps = {
@@ -17,6 +18,7 @@ function MovieReviewsTab({filmId}: MovieReviewsTabProps): JSX.Element {
   const [loading, setLoading]= useState(true);
   const [errorFetch, setErrorFetch] = useState<ErrorType>(null);
   const dispatch = useAppDispatch();
+  const [errorStatus, setErrorStatus] = useState<number>(HttpCode.Ok);
 
   useEffect(() => {
     getFilmComments(filmId, setErrorFetch).then((data) => {
@@ -28,10 +30,11 @@ function MovieReviewsTab({filmId}: MovieReviewsTabProps): JSX.Element {
   useEffect(() => {
     if(errorFetch) {
       dispatch(setError(getErrorMessage(errorFetch)));
+      setErrorStatus(getErrorStatus(errorFetch));
     }
   }, [errorFetch]);
 
-  if (loading || errorFetch) {
+  if ((loading || errorFetch) && errorStatus !== HttpCode.NotFound) {
     return (
       <LoadingScreen/>
     );
